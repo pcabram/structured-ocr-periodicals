@@ -171,7 +171,7 @@ The complete text of this block exactly as printed on the page.
 
 **Hyphenation:**
 - **Remove line-end word breaks:** Words hyphenated across lines should be joined.
-  - Printed: `"extraordi-\nnaire"`.
+  - Printed: `"extraordi-\naire"`.
   - Transcribed: `"extraordinaire"`.
 - **Keep genuine hyphens:** Compound words retain their hyphens.
   - Examples: `"peut-être"`, `"vis-à-vis"`, `"chef-d'œuvre"`, `"au-dessus"`.
