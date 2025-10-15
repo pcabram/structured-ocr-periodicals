@@ -1,0 +1,52 @@
+{
+  "mag_title": "LA PLUME",
+  "issue_label": null,
+  "date_string": null,
+  "page_ref": "97",
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "97",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "verse",
+      "item_text_raw": "Lorsqu'il sera bien dit que de sa pourriture\nIl ne saurait pas revenir,\nQu'on aura pour jamais dans cette sépulture\nJeté son boueux souvenir.\n\nAlors, alors enfin, sans honte et sans faiblesse\nNous pourrons sourire au printemps,\nRien ne souillera plus le front de la jeunesse,\nNous songerons à nos vingt ans !\n\n— 1868 —\nGustave Rivet.\n\n(HECTOR L'ESTRAZ, escholier de Paris.)",
+      "item_title": null,
+      "item_author": "Gustave Rivet.",
+      "is_continuation": true
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "AU PAYS BASQUE\n\nFONTARABIE\n\nPar une après-midi nuageuse, la façade haute et lisse, armoriée à un angle, de l'église renaissance se voyait diversement teintée, à une partie, de plaques légères de mousse d'un vert nouveau,frileux, en dessous, d'une coulée de roux presque ardent, puis de taches d'un brun violâtre. Teintes se fondant, faire rêver à la sardonyx. Dans cette régularité des pierres rien d'uniforme. La blancheur du mur se cendrait en des variantes isabelle et lilas envolées comme sous des souffles.\n\nIRUN\n\nDans l'église, à l'extérieur de fort, en contre-bas, nous percevions en entrant un vide accru par les hautes, grosses colonnes jaunes unies, reléguées dans les côtés. Sous la tribune très avançante il se renforce, les confessionnaux s'y accusent plus enfermants ; là, sur une marche d'autel, une femme au teint déjauni sans encore blanchir remuait les lèvres, gardait durement une posture fervente, sous la clignante lueur d'une veilleuse sacrée devant une statuette de cire peinte. Derrière le maître-autel, les reflets salis d'un grand rétable d'or. Jour de cierge de cette église, marquant dès la frontière le rite espagnol.\n\nEt c'était un peu en nous l'impression d'un tableau qui serait ridicule, mais qu'on regarde parce qu'il est vieux.\n\nDans les rues en pente, les boutiques se terrent, les toits pleins, saillants, relevés, historiés arrêtent les regards. De sur une terrasse on voyait tout le golfe de Fontarabie calme et embrumé ; un bel oranger, le seul dans le pays, étonnait d'être chargé de ses fruits mûrs.\n\nFrancis Poictevin.\n\n(Paysages.)",
+      "item_title": "AU PAYS BASQUE",
+      "item_author": "Francis Poictevin."
+    },
+    {
+      "item_class": "verse",
+      "item_text_raw": "LE MÉNÉTRIER\n\nÉtouffant en la nuit la rumeur de ses pas\nLe vieux ménétrier sous l'horreur de la lune\nRôde comme un garou par la lande et la dune.\n\nSur la grève des mers il balance ses pas,\nPris d'un doux mal d'amour pour sa dame la lune\nQui le leurre au plus loin de la lande et la dune.\n\nEt le voilà qui vague au vouloir de ses pas\nVers le miroir des mers où palpite la lune\nOublieux du réel de la lande et la dune.\n\nLes bras en croix, les yeux aux cieux, à large pas,\nAu plus glauque des flots le lunatique, ô lune,\nVa s'engloutir sans deuils de la lande et la dune.\n\nNul mutisme plus grand ne dit la mort de pas.\nUn remous mollement remue au clair de lune\nPuis la lame, et le vent sur la lande et la dune.\n\nStuart Merrill.\n\n(Les Gammes)",
+      "item_title": "LE MÉNÉTRIER",
+      "item_author": "Stuart Merrill."
+    },
+    {
+      "item_class": "verse",
+      "item_text_raw": "PAYSAGE DE FEMMES\n\nUne suite d'obscénités\nTrès parisiennes s'étale...\nTout un bouquet de saletés\nS'effeuille pétale à pétale...\n\nDans la ruelle où, par l'avril,\nNotre amour, loin des gens, couraille,\nUn membre extrêmement viril\nEst charbonné sur la muraille.\n\n— M.... pour celui qui lira —\n— La grande Jeanne a la v..... —\n— Mort aux vaches — et cœtera.\nSigné : Popaul des Batignolles.\n\nUne suite d'obscénités\nTrès parisiennes s'étale...\nTout un bouquet de saletés\nS'effeuille pétale à pétale...\n\nJean Ajalbert.\n\n(Paysages de Femmes)",
+      "item_title": "PAYSAGE DE FEMMES",
+      "item_author": "Jean Ajalbert."
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "LES LAURIERS SONT COUPÉS...\n(FRAGMENTS)\n\nUn soir de soleil couchant, d'air lointain, de cieux profonds; et des foules qui confuses vont; des bruits, des ombres, des multitudes; des espaces infiniment en l'oubli d'heures étendus; un vague soir...\n\nCar sous le chaos des apparences, parmi les durées",
+      "item_title": "LES LAURIERS SONT COUPÉS...\n(FRAGMENTS)",
+      "item_author": null,
+      "continues_on_next_page": true
+    }
+  ]
+}

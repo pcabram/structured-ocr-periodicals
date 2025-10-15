@@ -1,0 +1,20 @@
+{
+  "mag_title": "LA PLUME",
+  "issue_label": null,
+  "date_string": "1er septembre 1889",
+  "page_ref": null,
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME, supplément du 1er septembre 1889.",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Paul Léonnec\nLéon Vanier",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}
