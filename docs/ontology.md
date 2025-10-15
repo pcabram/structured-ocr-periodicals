@@ -263,23 +263,22 @@ Indicates whether this item continues from the previous page.
 
 **Values:**
 - `true`: Evidence strongly suggests this is a continuation.
-- `false`: Evidence suggests this starts a new contribution.
-- `null`: Uncertain or contradictory evidence.
+- Absent from JSON: Item does NOT continue from previous page.
 
-**Evidence for `true`:**
+**Do not include this field when the item is not a continuation.** Absence indicates the item starts on this page.
+
+**Evidence to include field with `true`:**
 - Text starts with lowercase letter (mid-sentence).
 - No title present when one would be expected for this item type.
 - Text clearly begins mid-paragraph or mid-thought.
+- Explicit continuation markers (e.g., "(Suite)").
 
-**Evidence for `false`:**
+**Evidence field should be absent:**
 - Text starts with capital letter and appears to be beginning of sentence.
 - Title is present.
 - Content appears self-contained.
 
-**When to use `null`:**
-- Evidence is contradictory (e.g., starts with capital but mid-thought).
-- Genre makes it ambiguous (e.g., poetry can start without titles).
-- Genuinely uncertain.
+**Note:** An item can be BOTH a continuation from previous page AND continue to next page. In this case, both `is_continuation` and `continues_on_next_page` will be present and set to `true`.
 
 ---
 
@@ -289,23 +288,22 @@ Indicates whether this item continues to the next page.
 
 **Values:**
 - `true`: Evidence strongly suggests continuation follows.
-- `false`: Evidence suggests the contribution is complete.
-- `null`: Uncertain or contradictory evidence.
+- Absent from JSON: Item does NOT continue to next page.
 
-**Evidence for `true`:**
+**Do not include this field when the item is complete.** Absence indicates the item ends on this page.
+
+**Evidence to include field with `true`:**
 - Text ends mid-sentence with no closing punctuation.
 - No author attribution at the end when expected for this item type.
 - Narrative or argument clearly incomplete.
+- Explicit continuation markers (e.g., "(À Suivre.)").
 
-**Evidence for `false`:**
+**Evidence field should be absent:**
 - Text ends with closing punctuation (period, exclamation, question mark).
 - Author attribution present at end.
 - Content appears complete (story ends, poem concludes, article reaches conclusion).
 
-**When to use `null`:**
-- Text ends with ambiguous punctuation.
-- Incomplete but could be intentional (fragment, excerpt).
-- Genre makes it unclear (e.g., experimental poetry).
+**Note:** An item can be BOTH a continuation from previous page AND continue to next page. In this case, both `is_continuation` and `continues_on_next_page` will be present and set to `true`.
 
 ---
 

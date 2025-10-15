@@ -1,0 +1,56 @@
+{
+  "mag_title": "LA PLUME",
+  "issue_label": "N° 10",
+  "date_string": "1er SEPTEMBRE",
+  "page_ref": null,
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "ABONNEMENTS : 5 FRANCS PAR AN\nLE NUMÉRO : 25 CENTIMES",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "1er SEPTEMBRE\nN° 10",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME\nRevue Littéraire & Artistique\nBI-MENSUELLE",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "NUMÉRO EXCEPTIONNEL\nCONSACRÉ AUX\nMODERNES",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Rédacteur en chef de ce numéro : Léon VANIER.",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "SOMMAIRE :\n\nTexte :\nLéon DESCHAMPS : Léon Vanier. — Paul VERLAINE : Les Ingénus. — Stéphane MALLARMÉ : La Gloire. — Jean MORÉAS : Les Bonnes Souvenances. — J.-K. HUYSMANS : Ballade en prose de la chandelle des six. — Léon VANIER : Guitare. — Anatole BAJU : L'Académie Française. — Gustave RIVET : Appel à la Jeunesse. — Francis POICTEVIN : Au Pays Basque. — Stuart MERRILL : Le Ménétrier. — Jean AJALBERT : Paysage de Femmes. — Edouard DUJARDIN : Les Lauriers sont coupés... — Arthur RIMBAUD : — Voyelles. — Georges VANOR : Marche nuptiale. — René GHIL : Ce soir confidentiel... — Jules LAFORGUE : Stérilité. — Henri de RÉGNIER : — Sonnet. — Léon DESCHAMPS : Les Polichinelles roman (suite).\n\nIllustrations :\nVilliers de l'Isle-Adam, dessin de LUQUE. — Léon Vanier, (avec autographe), dessin de Paul LÉONNEC. — Couverture illustrée et fleurons, par WILLETTE, CARAN D'ACHE, Edouard MANET et LUNEL.",
+      "item_title": "SOMMAIRE",
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "RÉDACTION ET ADMINISTRATION\n36, Boulevard Arago, 36\nPARIS",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Directeur de la Revue : Léon DESCHAMPS",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}
