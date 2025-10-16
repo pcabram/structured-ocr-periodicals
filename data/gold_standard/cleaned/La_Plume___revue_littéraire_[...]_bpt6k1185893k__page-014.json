@@ -1,0 +1,32 @@
+{
+  "mag_title": null,
+  "issue_label": null,
+  "date_string": null,
+  "page_ref": null,  
+  "items": [
+    {
+      "item_class": "ad",
+      "item_text_raw": "En vente aux bureaux de LA PLUME\n\nŒUVRES DE LÉON DESCHAMPS\n\nA LA GUEULE DU MONSTRE, poésies, un vol. in-18, vélin teinté. (A. Dupret, édit.)............................... Prix 3 fr. 50\nLE VILLAGE, roman de mœurs paysannes contemporaines, un fort vol. in-18. (Jules Lévy, édit.)................. 3 fr. 50\nCONTES A SYLVIE, un vol. in-18, papier teinté. (Jules Lévy, édit.)......... 3 fr. 50\n\n(Ces volumes sont vendus 1 fr. 25 chacun, aux abonnés de La Plume seulement).",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratexte",
+      "item_text_raw": "ABONNEMENTS :\nUn An.... : Cinq francs.\nSix Mois : Trois francs.\n\nLes abonnements partent du 1er de chaque mois.\n\nL'abonnement donne droit à recevoir GRATUITEMENT les portraits et les autographes qui seront encartés dans chaque numéro.\n\nTout ce qui concerne LA PLUME doit être adressé au Directeur, M. Léon DESCHAMPS, 36, Boulevard Arago, Paris.\n\nLes quittances récouvrées par la poste seront augmentées de 0,50 c. pour les frais.",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME, revue littéraire et artistique\n\nBULLETIN D’ABONNEMENT\n\nJe soussigné\ndemeurant à\ndéclare souscrire pour un abonnement de\nà partir du\n, abonnement payable le\nle\n18\n(Signature)",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Parthenay. — Imprimerie et stéréotypie, Emile Seguy, rue de la Saunerie.",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "mag_title": "LA PLUME",
+  "issue_label": null,
+  "date_string": null,
+  "page_ref": "100",
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "100",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "quelles, un soir extraordinaire ! un Train qui passe plein de la Foule, peut-être s'arrêtera... »\n\nJuin 89.\n\nRené Ghil.",
+      "item_title": null,
+      "item_author": "René Ghil.",
+      "is_continuation": true
+    },
+    {
+      "item_class": "verse",
+      "item_text_raw": "STÉRILITÉS\n\nCautérise et coagule\nEn vigules\nSes lagunes des cerises\nDes félines Ophélies\nOrphelines en folie.\n\nTarentule de feintises\nLa remise\nSans rancune des ovules\nAux félines Ophélies\nOrphelines en folie.\n\nSourd aux brises des scrupules,\nVers la bulle\nDe la Lune, adieu, nolise\nCes félines Ophélies\nOrphelines en folie !...\n\nJules Laforgue.\n\n(Imitation de Notre-Dame la Lune.)",
+      "item_title": "STÉRILITÉS",
+      "item_author": "Jules Laforgue."
+    },
+    {
+      "item_class": "verse",
+      "item_text_raw": "SONNET\n\nDes chiens en éveil ont hurlé toute la nuit\nDans les cours des maisons et des fermes voisines\nA la lune montrant par dessus les collines\nSa face pâle à tout jamais d'un vague ennui ;\n\nLes vieux chênes et les sapins ont frissonné\nDans l'ombre où bourdonnait le gros bruit de l'écluse,\nLa fontaine a coulé sur sa pierre qui s'use,\nA chaque heure l'heure plus lugubre a sonné.\n\nEt dans cette insomnie et cet énervement\nQui me chargeaient le cœur d'une sourde rancune\nJ'ai goûté l'amertume et l'assouvissement\n\nDe scruter ma misère et ma vie importune\nDe les maudire, et j'ai pleuré, rageusement,\nComme ces chiens, là-bas, qui hurlaient à la Lune.\n\nHenri de Régnier.\n\n(Sites.)",
+      "item_title": "SONNET",
+      "item_author": "Henri de Régnier."
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "LES POLICHINELLES\n(Suite)\n\nIV\n\nOù l'auteur se permet une irrévérencieuse monographie des Revues et des Revuïstes.\n\nLes Revuïstes, espèces de naïfs qui prennent pour des paroles d'évangile tout ce qu'on leur imprime, qui s'épargnent la peine de juger les œuvres et les hommes, s'en rapportant au jugement tout fait de leur Revue ; les Revuïstes, gens du monde vaniteux, bourgeois bourgeoisants, fils de paysans devenus normaliens, ouverriers libres-penseurs et paresseux : figures à gifles que l'on devrait promener dans les foires, afin que le peuple oublie ses révolutions en passant sa colère sur ces gueules prédestinées !\n\n— Aussi, dit Gilbert, ne tolérons pas que notre Revue à nous paraisse. Cependant, si cela vous plaît toujours, c'est convenu : vous êtes Rédacteur en chef.\n\n— Accepté, répondit le poète.\n\nEt nos deux personnages, le Directeur et le Rédacteur en chef de l'illustre revue fondée par Balzac, sortirent bras dessus bras dessous, pour aller arroser, au Café Vachette, leur amitié naissante et leurs succès futurs.\n\nEn bas, dans la loge, mame André, la concierge, discutait musique avec Fardeau. Celui-ci avait enfin trouvé un air digne de la poésie de sa fameuse cantate, et il venait de soumettre cet air à la brave pipelette — Pourquoi pas ? Molière causait bien littérature avec sa servante —. Or, mame André prétendait que la musique de Fardeau n'était pas absolument nouvelle, elle allait même jusqu'à croire le savant compositeur capable de plagiat, car elle l'accusait bel et bien d'avoir reproduit... Le Roi Dagobert, purement et simplement.\n\n(La justice nous oblige à dire que les suppositions de la concierge n'étaient point tout à fait dépourvues de bons sens).\n\nMais on invita Fardeau à venir prendre sa part des libations projetées au Café Vachette, ce qui mit fin à la discussion artistique commencée dans la loge.\n\nComme trait final, le compositeur pétrifia la brave concierge avec cette phrase vengeresse :\n\n— Madame, vous n'êtes qu'une buse ! Le wagnérisme sera toujours lettre morte pour votre pauvre intelligence...\n\nPuis, Gilbert ayant annoncé les titres de Savin dans la revue, Fardeau voulut en profiter pour demander une avance de fonds au Rédacteur en chef ; mais celui-ci s'y refusa énergiquement, alléguant qu'il avait, lui, Savin, une note à régler chez son carrossier.\n\n(A Suivre.)\nLéon Deschamps.",
+      "item_title": "LES POLICHINELLES\n(Suite)",
+      "item_author": "Léon Deschamps."
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Le Gérant : Léon Maillard.",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Partheney. — Imprimerie Emile Seguy, rue de la Saunerie.",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}
