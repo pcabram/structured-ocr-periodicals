@@ -30,10 +30,14 @@ class Stage1Item(BaseModel):
             "Includes both measured and free verse.\n"
             "- 'ad': Advertisements and commercial content. Book announcements, "
             "publisher advertisements, commercial announcements.\n"
-            "- 'paratext': Editorial framing and metadata. Magazine title/masthead, "
-            "section headers, table of contents, running headers/footers, page numbers, "
-            "printer information, editor/manager information, subscription notices, "
-            "pricing information for the magazine itself, portrait/illustration announcements.\n"
+            "- 'paratext': Editorial framing and metadata including:\n"
+            "  * Magazine title/masthead (e.g., 'LA PLUME') - extract as item even if in mag_title field\n"
+            "  * Issue numbers, dates, page numbers - extract even if in other fields\n"
+            "  * Section headers, table of contents\n"
+            "  * Running headers/footers\n"
+            "  * Printer information, editor/manager names\n"
+            "  * Subscription notices, pricing for magazine itself\n"
+            "  * Portrait/illustration announcements\n"
             "- 'unknown': Classification uncertain. Use only when genuinely ambiguous. "
             "Prefer specific classifications when possible.\n\n"
             "Classification is based on content nature, not structural position on page."
@@ -78,10 +82,10 @@ class Stage1Item(BaseModel):
     item_title: Optional[str] = Field(
         None,
         description=(
-            "Title or heading of the contribution, if printed. "
-            "Extract even if displayed in decorative, display, or non-standard font. "
-            "Transcribe exactly as printed. "
-            "Set to null if no title is present. "
+            "Title or heading of the contribution, if printed.\n"
+            "Extract even if displayed in decorative, display, or non-standard font.\n"
+            "Transcribe exactly as printed.\n"
+            "Set to null if no title is present.\n"
             "Note: Title should also appear in item_text_raw."
         )
     )
@@ -89,15 +93,18 @@ class Stage1Item(BaseModel):
     item_author: Optional[str] = Field(
         None,
         description=(
-            "Author name(s) attributed to this contribution, if printed. "
-            "Author attribution may appear at the BEGINNING or at the END of the contribution. "
-            "For multiple authors, transcribe as printed (e.g., 'Edmond et Jules de Goncourt'). "
-            "Preserve name format variations (e.g., 'Jules Laforgue', 'J. Laforgue', 'Laforgue'). "
-            "Set to null if no author attribution is present. "
-            "Note: Author should also appear in item_text_raw."
+            "Author name(s) attributed to this contribution, if printed.\n\n"
+            "CRITICAL: Author may appear at BEGINNING or END of text. "
+            "Check BOTH locations. Most commonly, authors appear at the END.\n\n"
+            "Common error: Missing author because it's at the end after the text. "
+            "Always check the last line.\n\n"
+            "Format preservation:\n"
+            "- Transcribe exactly as printed\n"
+            "- Multiple authors: 'Edmond et Jules de Goncourt'\n"
+            "- Name variations: 'Jules Laforgue', 'J. Laforgue', 'Laforgue'\n"
+            "Note: Author must also appear in item_text_raw."
         )
     )
-    
     is_continuation: Optional[bool] = Field(
     None,
     description=(
