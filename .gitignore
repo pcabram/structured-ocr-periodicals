@@ -1,0 +1,12 @@
+# Python environment and cache files
+.env
+__pycache__/
+*.pyc
+
+# Data
+data/gold_standard/raw/
+data/gold_standard/cleaned_backup/
+results
+
+# Personal
+albums_listened.txt

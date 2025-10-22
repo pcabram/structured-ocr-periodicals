@@ -1,0 +1,30 @@
+[tool.poetry]
+packages = [{ include = "magazine_graphs", from = "src" }]
+name = "magazine-graphs"
+version = "0.1.0"
+description = "Three-stage pipeline for graphs from magazine data"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mistralai = "^1.9.10"
+pypdf = "^6.1.0"
+pillow = "^11.3.0"
+tqdm = "^4.67.1"
+python-levenshtein = "^0.27.1"
+pydantic = "^2.12.2"
+python-dotenv = "^1.1.1"
+pandas = "^2.3.3"
+scikit-learn = "^1.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "deptry (>=0.23.1,<0.24.0)"
+]
