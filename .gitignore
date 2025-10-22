@@ -8,5 +8,6 @@ data/gold_standard/raw/
 data/gold_standard/cleaned_backup/
 results
 
-# Personal
-albums_listened.txt
+# Experimental
+pipeline.ipynb
+albums.txt
