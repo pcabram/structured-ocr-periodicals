@@ -50,12 +50,14 @@ def get_project_root() -> Path:
 
 PROJECT_ROOT = get_project_root()
 
+
 # Data directories
 
 DATA_ROOT = PROJECT_ROOT / "data"
 RAW_DATA = DATA_ROOT / "raw"
 PREDICTIONS = DATA_ROOT / "predictions"
 BNF_OCR = DATA_ROOT / "bnf_ocr"
+
 
 # Gold standard directories
 
@@ -95,6 +97,7 @@ def ensure_data_dirs() -> None:
     
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
+
 
 # Module self-test (runs when imported)
 

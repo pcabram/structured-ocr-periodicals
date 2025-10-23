@@ -6,6 +6,7 @@ __pycache__/
 # Data
 data/gold_standard/raw/
 data/gold_standard/cleaned_backup/
+data/predictions/
 results
 
 # Experimental

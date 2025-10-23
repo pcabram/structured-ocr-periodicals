@@ -47,7 +47,7 @@ def character_error_rate(
         Float between 0.0 and ∞.
     
     Note:
-        - Use 'standard' normalization for fair OCR comparison (recommended)
+        - Use 'standard' normalization for fair OCR comparison
         - Use 'letters_only' to measure pure character recognition accuracy
         - Empty reference returns 1.0 if hypothesis non-empty, else 0.0
     """
@@ -93,36 +93,11 @@ def word_error_rate(
         hypothesis: OCR output text to evaluate
         normalization: Text normalization level to apply before comparison
             - 'strict': Only Unicode NFC
-            - 'standard': Normalize whitespace (RECOMMENDED)
+            - 'standard': Normalize whitespace
             - 'letters_only': Uses 'standard' instead (needs word boundaries)
     
     Returns:
-        Float between 0.0 (perfect) and ∞. Typical values:
-        - 0.00-0.05: Excellent OCR quality
-        - 0.05-0.15: Good quality
-        - 0.15-0.30: Acceptable (needs correction)
-        - >0.30: Poor quality
-    
-    Examples:
-        >>> word_error_rate("hello world", "helo world", 'standard')
-        0.5  # 1 word error in 2 words = 50%
-        
-        >>> word_error_rate("the quick brown fox", "the quick fox", 'standard')
-        0.25  # 1 deletion in 4 words = 25%
-        
-        >>> word_error_rate("hello world", "world hello", 'standard')
-        1.0  # Both words substituted (order matters!)
-    
-    Note:
-        - WER treats word order changes as errors (use token_sort_text for
-          order-agnostic comparison)
-        - 'letters_only' normalization doesn't make sense for WER, so it
-          falls back to 'standard'
-        - Empty reference returns 1.0 if hypothesis non-empty, else 0.0
-    
-    Reference:
-        Originally from speech recognition, now standard in OCR evaluation.
-        See: https://en.wikipedia.org/wiki/Word_error_rate
+        Float between 0.0 (perfect) and ∞.
     """
     # Apply normalization
     if normalization == 'strict':
@@ -172,11 +147,6 @@ def evaluate_text_quality(
             'standard': {'cer': 0.03, 'wer': 0.08},
             'letters_only': {'cer': 0.02, 'wer': 0.0}
         }
-    
-    Examples:
-        >>> results = evaluate_text_quality("hello world", "helo world")
-        >>> results['standard']['cer']
-        0.09090909090909091
     """
     results = {}
     
