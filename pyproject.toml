@@ -1,9 +1,12 @@
 [tool.poetry]
-packages = [{ include = "magazine_graphs", from = "src" }]
+packages = [
+    { include = "utils" },
+    { include = "schemas" }
+]
 name = "magazine-graphs"
 version = "0.1.0"
 description = "Three-stage pipeline for graphs from magazine data"
-authors = ["Your Name <you@example.com>"]
+authors = ["Pedro Cabrera Ramírez <pedro.cabrera.ramirez@ens.psl.eu>"]
 license = "MIT"
 readme = "README.md"
 
