@@ -7,9 +7,9 @@ This schema includes continuation tracking fields for multi-page contributions.
 Based on: docs/ontology.md v1.0
 """
 
-from typing import List, Optional, Literal
-from pydantic import BaseModel, Field
+from typing import List, Literal, Optional
 
+from pydantic import BaseModel, Field
 
 # Item classification vocabulary
 ITEM_CLASS = Literal["prose", "verse", "ad", "paratext", "unknown"]
@@ -19,7 +19,7 @@ class Stage1Item(BaseModel):
     """
     A discrete text block on the page (contribution, advertisement, or paratextual element).
     """
-    
+
     item_class: ITEM_CLASS = Field(
         ...,
         description=(
@@ -41,11 +41,11 @@ class Stage1Item(BaseModel):
             "- 'unknown': Classification uncertain. Use only when genuinely ambiguous. "
             "Prefer specific classifications when possible.\n\n"
             "Classification is based on content nature, not structural position on page."
-        )
+        ),
     )
-    
+
     item_text_raw: str = Field(
-    ...,
+        ...,
         description=(
             "Complete text of this block exactly as printed.\n\n"
             "COMPLETENESS:\n"
@@ -73,12 +73,12 @@ class Stage1Item(BaseModel):
             "- Preserve capitalization exactly (note: 19th century capitals often lack accents: 'A cette époque')\n"
             "- Preserve ALL accents as printed: è é ê à ù etc.\n"
             "- Preserve ligatures: œ, æ\n"
-            "- Preserve quotation marks: « » or \" as printed\n"
+            '- Preserve quotation marks: « » or " as printed\n'
             "- Preserve '&' if present\n"
             "- Preserve spacing around punctuation AS PRINTED (inconsistent in originals)"
-        )
+        ),
     )
-    
+
     item_title: Optional[str] = Field(
         None,
         description=(
@@ -87,9 +87,9 @@ class Stage1Item(BaseModel):
             "Transcribe exactly as printed.\n"
             "Set to null if no title is present.\n"
             "Note: Title should also appear in item_text_raw."
-        )
+        ),
     )
-    
+
     item_author: Optional[str] = Field(
         None,
         description=(
@@ -103,26 +103,26 @@ class Stage1Item(BaseModel):
             "- Multiple authors: 'Edmond et Jules de Goncourt'\n"
             "- Name variations: 'Jules Laforgue', 'J. Laforgue', 'Laforgue'\n"
             "Note: Author must also appear in item_text_raw."
-        )
+        ),
     )
     is_continuation: Optional[bool] = Field(
-    None,
-    description=(
-        "Indicates whether this item continues from the previous page.\n\n"
-        "Set to true if evidence strongly suggests this is a continuation:\n"
-        "- Text starts with lowercase letter (mid-sentence)\n"
-        "- No title present when one would be expected for this item type\n"
-        "- Text clearly begins mid-paragraph or mid-thought\n\n"
-        "Omit this field entirely if the item does NOT continue from previous page. "
-        "Evidence suggests that the text starts a new contribution and it's not a continuation:\n"
-        "- Text starts with capital letter and appears to be beginning of sentence\n"
-        "- Title is present\n"
-        "- Content appears self-contained\n\n"
-        "Note: An item can be BOTH a continuation from previous page AND continue to next page. "
-        "In this case, both is_continuation and continues_on_next_page will be true.\n\n"
-        "Never set to false - absence of field indicates no continuation."
+        None,
+        description=(
+            "Indicates whether this item continues from the previous page.\n\n"
+            "Set to true if evidence strongly suggests this is a continuation:\n"
+            "- Text starts with lowercase letter (mid-sentence)\n"
+            "- No title present when one would be expected for this item type\n"
+            "- Text clearly begins mid-paragraph or mid-thought\n\n"
+            "Omit this field entirely if the item does NOT continue from previous page. "
+            "Evidence suggests that the text starts a new contribution and it's not a continuation:\n"
+            "- Text starts with capital letter and appears to be beginning of sentence\n"
+            "- Title is present\n"
+            "- Content appears self-contained\n\n"
+            "Note: An item can be BOTH a continuation from previous page AND continue to next page. "
+            "In this case, both is_continuation and continues_on_next_page will be true.\n\n"
+            "Never set to false - absence of field indicates no continuation."
+        ),
     )
-)
 
     continues_on_next_page: Optional[bool] = Field(
         None,
@@ -140,7 +140,7 @@ class Stage1Item(BaseModel):
             "Note: An item can be BOTH a continuation from previous page AND continue to next page. "
             "In this case, both is_continuation and continues_on_next_page will be true.\n\n"
             "Never set to false - absence of field indicates no continuation."
-        )
+        ),
     )
 
 
@@ -149,7 +149,7 @@ class Stage1PageModel(BaseModel):
     Complete page-level extraction from a historical magazine page.
     Includes page metadata and all text items in reading order.
     """
-    
+
     mag_title: Optional[str] = Field(
         None,
         description=(
@@ -157,9 +157,9 @@ class Stage1PageModel(BaseModel):
             "Transcribe exactly as it appears, even if stylized or in decorative font. "
             "Usually found in masthead, running header, or decorative logo. "
             "Set to null if not visible on this page."
-        )
+        ),
     )
-    
+
     issue_label: Optional[str] = Field(
         None,
         description=(
@@ -168,9 +168,9 @@ class Stage1PageModel(BaseModel):
             "May include year, volume, or series information. "
             "Examples: 'N° 10', 'Première année', 'Tome II, N° 5'. "
             "Set to null if not present on this page."
-        )
+        ),
     )
-    
+
     date_string: Optional[str] = Field(
         None,
         description=(
@@ -179,9 +179,9 @@ class Stage1PageModel(BaseModel):
             "Keep period-appropriate orthography. "
             "Examples: 'Juin 89.', '1er Septembre 1889', '15 juin 1890'. "
             "Set to null if not present on this page."
-        )
+        ),
     )
-    
+
     page_ref: Optional[str] = Field(
         None,
         description=(
@@ -189,9 +189,9 @@ class Stage1PageModel(BaseModel):
             "Transcribe exactly as formatted. "
             "Examples: '100', 'p. 45', '- 23 -'. "
             "Set to null if not present."
-        )
+        ),
     )
-    
+
     items: List[Stage1Item] = Field(
         ...,
         description=(
@@ -218,5 +218,5 @@ class Stage1PageModel(BaseModel):
             "Do not omit the second half of contributions.\n"
             "5. Natural reading: Follow the sequence a reader would naturally follow.\n\n"
             "Empty pages: For blank pages, items may be empty list []."
-        )
+        ),
     )
