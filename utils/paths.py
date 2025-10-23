@@ -5,40 +5,41 @@ This module provides consistent path resolution across notebooks and scripts.
 
 Usage in notebooks:
     from utils.paths import PROJECT_ROOT, RAW_DATA, PREDICTIONS, GOLD_CLEAN
-    
+
     # Use paths directly
     pdfs = list(RAW_DATA.glob("*.pdf"))
-    
+
 Usage in scripts:
     from utils.paths import PROJECT_ROOT, ensure_data_dirs
-    
+
     # Create necessary directories
     ensure_data_dirs()
 """
+
 from pathlib import Path
 
 
 def get_project_root() -> Path:
     """
     Find project root by locating pyproject.toml.
-    
+
     Searches upward from this file's location until it finds a directory
     containing pyproject.toml.
 
     Returns:
         Path to project root directory
-        
+
     Raises:
         RuntimeError: If pyproject.toml not found in any parent directory
     """
     # Start from this file's location
     current = Path(__file__).resolve()
-    
+
     # Check this directory and all parent directories
     for parent in [current] + list(current.parents):
         if (parent / "pyproject.toml").exists():
             return parent
-    
+
     # If we get here, we couldn't find the project root
     raise RuntimeError(
         "Could not find project root (no pyproject.toml found). "
@@ -76,10 +77,11 @@ UTILS = PROJECT_ROOT / "utils"
 
 # Utility function for directory creation
 
+
 def ensure_data_dirs() -> None:
     """
     Create data directories if they don't exist.
-    
+
     Safe to call multiple times (idempotent). Creates:
     - data/raw/
     - data/predictions/
@@ -94,7 +96,7 @@ def ensure_data_dirs() -> None:
         GOLD_RAW,
         GOLD_CLEAN,
     ]
-    
+
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
 

@@ -1,7 +1,30 @@
-# Python environment and cache files
-.env
+# Python
 __pycache__/
+*.py[cod]
 *.pyc
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.env
+.venv
+venv/
+env/
+
+# API keys and secrets
+api_key
+*.key
+
+# Jupyter
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Data
 data/gold_standard/raw/
