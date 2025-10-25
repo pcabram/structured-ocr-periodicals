@@ -1,0 +1,34 @@
+{
+  "mag_title": "LA PLUME",
+  "page_ref": "479",
+  "issue_label": null,
+  "date_string": null,
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "479",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Réduction d'une affiche de H.-G. IBELS pour Mévisto.\n(Cette affiche a été reproduite en couleur dans La Plume du 15 janvier 1893.)",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "bien en convenir, ne lui laisse voir que le côté plaisant des choses, mais, il le voit bien, vite et juste. Son affiche pour certain magasin de chaussures de la rive gauche était une heureuse trouvaille, son Hercule et son Fort de la Halle sont deux types d'une superbe venue.\n\nPour Ibels, il a, de l'affiche, une entente parfaite. Son Pierrot et ses Mévisto sont des compositions frappantes, dont la coloration atteste de sérieuses études. Comme Toulouse-Lautrec, Ibels est un fervent de l'impressionnisme, mais, où l'un voit calme et pâle, l'autre recherche le mouve",
+      "item_title": null,
+      "item_author": null,
+      "is_continuation": true,
+      "continues_on_next_page": true
+    }
+  ]
+}
