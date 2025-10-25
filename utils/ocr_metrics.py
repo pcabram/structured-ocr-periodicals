@@ -100,7 +100,8 @@ def word_error_rate(
         ref = normalize_text_standard(reference)
         hyp = normalize_text_standard(hypothesis)
     elif normalization == "letters_only":
-        # WER doesn't make sense without word boundaries, use standard
+        # WER doesn't make sense without word boundaries, use standard by default
+        # TODO Find a more elegant wat to handle this
         ref = normalize_text_standard(reference)
         hyp = normalize_text_standard(hypothesis)
     else:
