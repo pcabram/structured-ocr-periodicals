@@ -1,0 +1,40 @@
+{
+  "mag_title": "LA PLUME",
+  "page_ref": "480",
+  "issue_label": null,
+  "date_string": null,  
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "480",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "ment et la couleur.\n\nCombien de noms me resteraient à citer: Balluriau, Bouisset, Faria, de Feure, Galice, Gorguet, Gray, Métivet, Gaston Noury, Roy, bien d'autres encore devraient se trouver ici. Ce sont eux que le prévoyant avenir a sagement mis en réserve. Qu'ils veuillent bien m'excuser si la place me manque pour parler d'eux comme je le devrais. Ils se chargeront eux-mêmes de plaider leur cause auprès d'un public bien préparé, qui sait aujourd'hui ce que vaut l'affiche illustrée et quelles sont les satisfactions intimes qu'elle promet et qu'elle donne à ses fidèles.\n\nERNEST MAINDRON.",
+      "item_title": null,
+      "item_author": "ERNEST MAINDRON.",
+      "is_continuation": true
+    },
+    {
+      "item_class": "prose",
+      "item_text_raw": "LE ROI DE L'AFFICHE\n\nC'est incontestablement, de par le prestige du talent, M. Jules Chéret. Aujourd'hui, sa prééminence est reconnue. Il est passé le temps où je soulevai des étonnements en regardant et admirant comme de parfaites œuvres d'art les affiches d'une semaine ou deux au plus. De l'art cela, qui ne se trouvait après aucun tourniquet, dans aucune exposition officielle et même indépendante, impressionniste, tachiste, cloisonniste, synthétiste — de l'art, ces feuilles peintes en trois ou quatre couleurs brutales, collées sur les murs et portant des réclames en lettres capitales de quinze à vingt centimètres ; d'aucuns crurent à une plaisanterie.\n\nJ'écrivais (Figaro, 16 mai 1885) il y a huit ans :\n\n« ...Ce fabricant d'affiches est un dessinateur extraordinaire, absolument hors de pair, et à la fois un maître imprimeur comme il en fut au moyen-âge. Ses compositions, d'une science de couleur absolue, sont magnifiquement décoratives ; c'est élégant, vigoureux, d'un caprice sans pareil. Jules Chéret, n'escamotant jamais la difficulté, en triomphant toujours, malgré les proportions nécessitées par les besoins commerciaux de la réclame, fait dominer la note brutale par le cachet artistique. Ses affiches, visions attrayantes de couleurs combinées avec une malignité prodigieuse, éclatantes comme des coquelicots qui auraient poussé dans des trous de murs, — sont des bouquets empourprés et raccrocheurs.\n\nAinsi le veut le temps. Times is money. Un des plus véritablement artistes, dans l'imagerie parisienne, est celui qui compose sans souci de gloire, ces placards dont les lambeaux, déchiquetés par le vent et la pluie, claquent, au long des murailles, où leur apparition fraîche fut une gaîté... »\n\nDepuis, d'autres critiques sont venus qui ont popularisé le talent du maître de l'affiche. Pour ma part, cherchant une variante, je lui demandai d'appliquer cette verve, épanouie sur les murs, en de moindres dimensions pour des illustrations et des couvertures de livres (mais en des affiches aussi, par exemple, pour un roman : l'Amant des danseuses. Ensuite, pour une pièce: la Gomme.)",
+      "item_title": "LE ROI DE L'AFFICHE",
+      "item_author": null,
+      "continues_on_next_page": true
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Réduction d'une 1re affiche de JULES CHÉRET, pour la Saxoleïne (Grav. sur bois de A. Léveillé).",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}
