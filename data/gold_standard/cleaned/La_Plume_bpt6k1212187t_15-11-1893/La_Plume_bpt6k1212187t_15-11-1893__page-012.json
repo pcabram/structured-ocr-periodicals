@@ -1,0 +1,26 @@
+{
+  "mag_title": "LA PLUME",
+  "issue_label": null,
+  "date_string": null,
+  "page_ref": "484",
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "484",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Réduction d'une affiche de JULES CHÉRET pour le Rabelais, de Robida.",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}
