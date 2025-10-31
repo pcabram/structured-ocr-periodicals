@@ -1,0 +1,38 @@
+{
+  "mag_title": "LA PLUME",
+  "issue_label": null,
+  "date_string": null,
+  "page_ref": "508",
+  "items": [
+    {
+      "item_class": "paratext",
+      "item_text_raw": "508",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LA PLUME",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "verse",
+      "item_text_raw": "Les Poètes\n\nA M. José-Maria de Hérédia.\n\n1\n\nQuand les poèt's s'en vont par un\nC'est qu'ils n'aim'nt pas les importuns :\nIls march'nt très vite en se rangeant\nPour éviter d' peiner les gens\nA qui ils s' trouv'nt devoir d' l'argent.\n\n2\n\nQuand les poèt's s'en vont par deux\nC'est qu' le premier est amoureux,\nEt racont' ses amours, naïf,\nAu s'cond qui l' écoute, attentif,\nPour s' faire payer l'apéritif.\n\n3\n\nQuand les poèt's s'en vont par trois\nIls mépris'nt l'Institut, la croix,\nTrès haut — mais sans désespérer\nD'avoir pour leur Quatorz' Juillet\nUn tout p'tit bout d' ruban violet\n\n4\n\nQuand les poèt's s'en vont par quat'e\nChacun dit ses vers, plein d'épate.\nL'un fait classiqu', l'autr' parnassien\nOu symboliste, on n' sait pas bien...\nY en a même un tas qui n' font rien.\n\n5\n\nQuand les poèt's sont cinq ou six\nIls n' sont jamais du même avis.\nPourtant ils sav'nt à l'occasion\nDécider sans discussion\nD' renouv'ler la consommation.\n\n6\n\nQuand les poèt's sont sept ou huit\nIls boiv'nt des bocks jusqu'à minuit :\nMais l' café dont ils ont fait choix\nPour tenir leurs seanc's, chaqu' fois\nFait faillite à la fin du mois.\n\n7\n\nQuand les poèt's sont neuf ou dix,\nN'ayant pas un maravédis,\nIls s' consol'nt de n' pas déjeuner\nEn s' gargarisant d'un sonnet\nQui r'sert quéqu' fois pour leur diner.\n\n8\n\nQuand les poèt's ne s'en vont plus,\nAlors ils commenc'nt à être lus :\nLes éditeurs portent leur deuil,\nPendant qu'ils font avec orgueil\nLeurs derniers vers... dans leur cercueil.\n\nCHARLES MOUGEL.",
+      "item_title": "Les Poètes",
+      "item_author": "CHARLES MOUGEL"
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Le Directeur-Gérant : Léon DESCHAMPS",
+      "item_title": null,
+      "item_author": null
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "Annonay. — Impr. J. ROYER.",
+      "item_title": null,
+      "item_author": null
+    }
+  ]
+}

@@ -5,44 +5,42 @@
   "page_ref": "506",
   "items": [
     {
-      "item_class": "prose",
-      "item_text_raw": "Jusqu'ici les philosophes s'étaient contentés de regarder ; le grand tort de M. Caro fut de vouloir toucher.\n\n***\n\nCorneille était dans le vrai. Quoi de plus dramatique que la lutte entre la passion et le devoir, et de plus attachant qu'une vertu qui commence à branler ?\n\n***\n\nJamais la puissance de la littérature ne se fait mieux sentir que quand elle ridiculise un nom illustre ou ennoblit un nom vil. Par exemple, qui ne sourit en entendant rappeler Sancho le brave ? Et ce roi vaillant entre tous n'est-il pas désormais condamné par Cervantes, comme chez nous, par un inepte refrain, Dagobert, à un irrémédiable persiflage ?\n\nPAUL MASSON.",
+      "item_class": "paratext",
+      "item_text_raw": "506",
       "item_title": null,
-      "item_author": null,
-      "is_continuation": null,
-      "continues_on_next_page": null
+      "item_author": null
     },
     {
       "item_class": "paratext",
-      "item_text_raw": "LES CHANSONS DE « LA PLUME »\nChanson des Thuriféraires\nA Jules Chéret.",
+      "item_text_raw": "LA PLUME",
       "item_title": null,
-      "item_author": null,
-      "is_continuation": null,
-      "continues_on_next_page": null
+      "item_author": null
+    },    
+    {
+      "item_class": "prose",
+      "item_text_raw": "Jusqu'ici les philosophes s'étaient contentés de regarder ; le grand tort de M. Caro fut de vouloir toucher.\n\nCorneille était dans le vrai. Quoi de plus dramatique que la lutte entre la passion et le devoir, et de plus attachant qu'une vertu qui commence à branler ?\n\nJamais la puissance de la littérature ne se fait mieux sentir que quand elle ridiculise un nom illustre ou ennoblit un nom vil. Par exemple, qui ne sourit en entendant rappeler Sancho le brave ? Et ce roi vaillant entre tous n'est-il pas désormais condamné par Cervantès, comme chez nous, par un inepte refrain, Dagobert, à un irrémédiable persiflage ?\n\nPAUL MASSON.",
+      "item_title": null,
+      "item_author": "PAUL MASSON.",
+      "is_continuation": true
+    },
+    {
+      "item_class": "paratext",
+      "item_text_raw": "LES CHANSONS DE « LA PLUME »",
+      "item_title": null,
+      "item_author": null
     },
     {
       "item_class": "verse",
-      "item_text_raw": "Hé là-bas ! les limeurs de rimes,\nLes travailleurs des arts, les fous,\nLes fondeurs de pensers sublimes,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires,\nEn prières,\nLançant à genoux l'encensoir,\nAu sanctuaire\nOù la chimère\nEst ostensoir.\n\nHé là-bas ! les rêveurs pudiques,\nLes amoureux transis, les doux\nChercheurs de plaisirs platoniques,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires,\nEn prières,\nLançant à genoux l'encensoir\nDans la chapelle\nOù cour fidèle\nEst ostensoir.\n\nHé là-bas ! les amants lubriques\nEt les coureurs de guilledous,\nLes sensuels, les impudiques,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires,\nEn prières,\nLançant à genoux l'encensoir\nSans retenue\nVers la chair nue\nPour ostensoir.\n\nHé là-bas ! les clowns et paillasses,\nLes charlatans et les flous\nEt tous les êtres à deux faces,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDans une église\nOù la bêtise\nEst ostensoir.\n\nHé là-bas ! les chefs de ripailles\nLes noceurs assoiffés et tous\nLes dépucelurs de futailles\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDevant la vieille\nDive bouteille\nPour ostensoir.\n\nHé là-bas ! les êtres à vendre,\nEt les joueurs, et les grigous\nEt tous les usuriers à pendre,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDans un asile\nOù l'or en pile\nEst ostensoir.\n\nHé là-bas ! les gens de bataille,\nDes lauriers des héros jaloux,\nFrappeurs d'estoc, frappeurs de taille,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDans l'oratoire\nOù toute gloire\nEst ostensoir.\n\nHé là-bas ! les gueux sans asiles,\nCrève-faim sans mailles ni sous\nEt tous les Robinsons sans îles,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nSans paix ni trêve\nVers la mort brève\nPour ostensoir.",
+      "item_text_raw": "Chanson des Thuriféraires\n\nA Jules Chéret.\n\nHé là-bas ! les limeurs de rimes,\nLes travailleurs des arts, les fous,\nLes fondeurs de pensers sublimes,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires,\nEn prières,\nLançant à genoux l'encensoir,\nAu sanctuaire\nOù la chimère\nEst ostensoir.\n\nHé là-bas ! les rêveurs pudiques,\nLes amoureux transis, les doux\nChercheurs de plaisirs platoniques,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires,\nEn prières,\nLançant à genoux l'encensoir\nDans la chapelle\nOù cœur fidèle\nEst ostensoir.\n\nHé là-bas ! les amants lubriques\nEt les coureurs de guilledous,\nLes sensuels, les impudiques,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires,\nEn prières,\nLançant à genoux l'encensoir\nSans retenue\nVers la chair nue\nPour ostensoir.\n\nHé là-bas ! les clowns et paillasses,\nLes charlatans et les filous\nEt tous les êtres à deux faces,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDans une église\nOù la bêtise\nEst ostensoir.\n\nHé là-bas ! les chefs de ripailles\nLes noceurs assoiffés et tous\nLes dépuceleurs de futailles\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDevant la vieille\nDive bouteille\nPour ostensoir.\n\nHé là-bas ! les êtres à vendre,\nEt les joueurs, et les grigous\nEt tous les usuriers à pendre,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDans un asile\nOù l'or en pile\nEst ostensoir.\n\nHé là-bas ! les gens de bataille,\nDes lauriers des héros jaloux,\nFrappeurs d'estoc, frappeurs de taille,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nDans l'oratoire\nOù toute gloire\nEst ostensoir.\n\nHé là-bas ! les gueux sans asiles,\nCrève-faim sans mailles ni sous\nEt tous les Robinsons sans îles,\nQu'êtes-vous ?\n— Nous sommes les thuriféraires\nEn prières,\nLançant à genoux l'encensoir\nSans paix ni trêve\nVers la mort brève\nPour ostensoir.\n\nXAVIER PRIVAS.",
       "item_title": "Chanson des Thuriféraires",
-      "item_author": "XAVIER PRIVAS",
-      "is_continuation": null,
-      "continues_on_next_page": null
+      "item_author": "XAVIER PRIVAS."
     },
     {
-      "item_class": "paratext",
-      "item_text_raw": "LES MARINS RUSSES\nCHANSON\n(Air : Un bal à l'Hôtel de Ville)",
+      "item_class": "verse",
+      "item_text_raw": "LES MARINS RUSSES\n\nCHANSON\n\n(Air : Un bal à l'Hôtel de Ville)\n\nI\n\nAh ! vraiment, Paris les a r'çus\nD'une façon sans pareille !\nL' premier soir, ils n's'entendaient plus\nAcclamer qu' d'une oreille.\nPuis, au bout d' deux jours,\nIls étaient tous sourds.\nOn n' pouvait pas mieux faire !\nA répondr' chaqu' fois\nIls s' cassèr'nt la voix....\nIls ont dû bien s' distraire !",
       "item_title": "LES MARINS RUSSES",
       "item_author": null,
-      "is_continuation": null,
-      "continues_on_next_page": null
-    },
-    {
-      "item_class": "verse",
-      "item_text_raw": "Ah ! vraiment, Paris les a r'çus\nD'une façon sans pareille !\nD' premier soir, ils n's'entendaient plus\nAcclamer qu'd'une oreille.\nPuis, au bout d' deux jours,\nIls étaient tous sourds.\nOn n' pouvait pas mieux faire !\nA répondre chacu' fois\nIls s' cassent la voix....\nIls ont du bien s'distraire !",
-      "item_title": null,
-      "item_author": null,
-      "is_continuation": null,
-      "continues_on_next_page": null
+      "continues_on_next_page": true
     }
   ]
 }
