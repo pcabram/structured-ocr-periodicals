@@ -172,14 +172,14 @@ def validate_extraction(
     
     # Check if items exist
     if "items" not in annot:
-        warnings.append(f"Missing 'items' field")
+        warnings.append("Missing 'items' field")
         return False, warnings
     
     items = annot["items"]
     
     # Check for empty pages (valid but worth noting)
     if len(items) == 0:
-        warnings.append(f"Zero items extracted (possibly blank page)")
+        warnings.append("Zero items extracted (possibly blank page)")
     
     # Check for suspiciously short items
     for idx, item in enumerate(items):
