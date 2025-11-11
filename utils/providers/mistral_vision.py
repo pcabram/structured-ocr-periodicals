@@ -119,9 +119,9 @@ class MistralVisionProvider:
                 max_tokens=kwargs.get("max_tokens", 4096)
             )
 
-            # chat.parse() returns validated Pydantic model in resp.parsed
+            # chat.parse() returns validated Pydantic model in resp.choices[0].message.parsed
             # Convert to dict for compatibility with extraction pipeline
-            return resp.parsed.model_dump()
+            return resp.choices[0].message.parsed.model_dump()
 
         except Exception as e:
             logger.error(f"Vision API call failed for page {page_num}: {e}")
