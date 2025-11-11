@@ -56,3 +56,4 @@ test_vision_output.json
 test_comparison_vision.py
 test_comparison_vision.json
 test_comparison_ocr.json
+test_auto_prompt.py
