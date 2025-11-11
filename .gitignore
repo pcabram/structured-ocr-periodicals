@@ -53,3 +53,6 @@ test_output_legacy
 test_output_provider.py
 test_vision_provider.py
 test_vision_output.json
+test_comparison_vision.py
+test_comparison_vision.json
+test_comparison_ocr.json

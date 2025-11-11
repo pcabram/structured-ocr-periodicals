@@ -198,384 +198,184 @@ def validate_extraction(
 
 
 # ============================================================================
+# PROMPT LOADING
+# ============================================================================
+
+def _load_prompt_for_schema(
+    schema_class: type[BaseModel],
+    explicit_prompt: Optional[str] = None
+) -> Optional[str]:
+    """
+    Load system prompt for vision models.
+
+    Auto-loads prompt based on schema module name:
+    - schemas.stage1_page_v2 -> prompts/stage1_page_v2.txt
+
+    Args:
+        schema_class: Pydantic model class defining extraction schema
+        explicit_prompt: Optional explicit prompt string (overrides auto-load)
+
+    Returns:
+        Prompt string if found/provided, None otherwise (OCR models don't need prompts)
+    """
+    # If explicit prompt provided, use it
+    if explicit_prompt:
+        return explicit_prompt
+
+    # Auto-load based on schema module name
+    # Example: schemas.stage1_page_v2 -> stage1_page_v2
+    schema_module = schema_class.__module__
+    if '.' in schema_module:
+        schema_name = schema_module.split('.')[-1]
+    else:
+        schema_name = schema_module
+
+    # Check if corresponding prompt file exists
+    from .paths import PROJECT_ROOT
+    prompt_path = PROJECT_ROOT / "prompts" / f"{schema_name}.txt"
+
+    if prompt_path.exists():
+        logger.debug(f"Auto-loaded prompt: {prompt_path}")
+        return prompt_path.read_text(encoding='utf-8')
+
+    # No prompt found (OCR models don't need them)
+    logger.debug(f"No prompt file found for schema: {schema_name}")
+    return None
+# ============================================================================
 # CORE EXTRACTION
 # ============================================================================
 
 def _extract_pdf_pages_with_provider(
-
-
-
     pdf_path: Path,
-
-
     schema_class: type[BaseModel],
-
-
     model_name: str,
-
-
     out_root: Path,
-
-
     overwrite: bool = False,
-
-
     zero_pad: int = 3,
-
-
     max_retries: int = 3,
-
-
     base_delay: float = 1.0,
-
-
     max_delay: float = 8.0,
-
-
-    src_root: Optional[Path] = None
-
-
+    src_root: Optional[Path] = None,
+    system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
-
-
     """
-
-
     Extract PDF pages using provider architecture.
 
-
-
-
-
     Internal function - use extract_pdf_pages() with use_providers=True instead.
-
-
     """
-
-
     from .providers import get_model_provider
 
-
-
-
-
     # Initialize provider
-
-
     provider = get_model_provider(model_name)
 
-
-
-
+    # Load prompt if vision model (auto-load or explicit)
+    prompt = _load_prompt_for_schema(schema_class, system_prompt)
 
     # Count pages
-
-
     n_pages = count_pages(pdf_path)
 
-
     if n_pages == 0:
-
-
         logger.warning(f"No pages found in {pdf_path.name}")
-
-
         return {"written": 0, "skipped": 0, "failed": 0, "total": 0}
 
-
-
-
-
     # Setup output directory
-
-
     if src_root:
-
-
         rel_path = pdf_path.relative_to(src_root).with_suffix("")
-
-
     else:
-
-
         rel_path = pdf_path.with_suffix("")
-
-
-
-
 
     out_dir = out_root / rel_path
 
-
     out_dir.mkdir(parents=True, exist_ok=True)
 
-
-
-
-
     # Statistics
-
-
     stats = {"written": 0, "skipped": 0, "failed": 0, "total": n_pages}
 
-
-
-
-
     # Pre-scan: find which pages need extraction
-
-
     pages_to_extract = []
-
-
     for page_idx in range(n_pages):
-
-
         page_num = page_idx + 1
-
-
         out_json = out_dir / f"{pdf_path.stem}__page-{page_num:0{zero_pad}d}.json"
-
-
-
-
-
         if not out_json.exists() or overwrite:
-
-
             pages_to_extract.append(page_num)  # 1-indexed for provider
-
-
         else:
-
-
             stats["skipped"] += 1
 
-
-
-
-
     # Log summary
-
-
     logger.info(
-
-
         f"Processing {pdf_path.name}: "
-
-
         f"{len(pages_to_extract)} to extract, "
-
-
         f"{stats['skipped']} already exist"
-
-
     )
-
-
-
-
 
     # Skip if nothing to do
-
-
     if len(pages_to_extract) == 0:
-
-
         logger.info(f"✓ {pdf_path.name}: All pages already extracted")
-
-
         return stats
 
-
-
-
-
     # Create progress bar
-
-
     page_iterator = tqdm(pages_to_extract, desc=f"  {pdf_path.name}", leave=False)
 
-
-
-
-
     for page_num in page_iterator:
-
-
         out_json = out_dir / f"{pdf_path.stem}__page-{page_num:0{zero_pad}d}.json"
-
-
-
-
-
         # Skip if exists and not overwriting
-
-
         if out_json.exists() and not overwrite:
-
-
             stats["skipped"] += 1
-
-
             continue
-
-
-
-
-
         # Call provider with retry logic
-
-
         try:
-
-
             def _call():
-
-
-                return provider.process_page(
-
-
-                    pdf_path=pdf_path,
-
-
-                    page_num=page_num,
-
-
-                    schema_class=schema_class
-
-
-                )
-
-
-
-
-
+                    # Build kwargs for provider
+                    kwargs = {
+                        "pdf_path": pdf_path,
+                        "page_num": page_num,
+                        "schema_class": schema_class
+                    }
+                    # Add system prompt if available
+                    if prompt:
+                        kwargs["system_prompt"] = prompt
+                    return provider.process_page(**kwargs)
             annot = call_with_retry(
-
-
                 _call,
-
-
                 retries=max_retries,
-
-
                 base_delay=base_delay,
-
-
                 max_delay=max_delay,
-
-
             )
 
-
-
-
-
         except Exception as e:
-
-
             logger.error(f"Page {page_num} failed after {max_retries} retries: {e}")
-
-
             stats["failed"] += 1
-
-
             continue
-
-
-
-
 
         # Ensure items key exists
-
-
         if "items" not in annot:
-
-
             annot["items"] = []
 
-
-
-
-
         # Validate (but don't block writing)
-
-
         is_valid, warnings = validate_extraction(annot, schema_class, page_num, pdf_path.name)
-
-
         if warnings:
-
-
             for warning in warnings:
-
-
                 logger.warning(f"Page {page_num}: {warning}")
 
-
-
-
-
         # Write output
-
-
         try:
-
-
             out_json.write_text(
-
-
                 json.dumps(annot, ensure_ascii=False, indent=2),
-
-
                 encoding="utf-8"
-
-
             )
-
-
             stats["written"] += 1
 
-
-
-
-
         except Exception as e:
-
-
             logger.error(f"Failed to write {out_json.name}: {e}")
-
-
             stats["failed"] += 1
 
-
-
-
-
     # Log summary
-
-
     logger.info(
-
-
         f"✓ {pdf_path.name}: "
-
-
         f"{stats['written']} written, "
-
-
         f"{stats['skipped']} skipped, "
-
-
         f"{stats['failed']} failed"
-
-
     )
-
-
-
-
 
     return stats
 
@@ -591,7 +391,8 @@ def extract_pdf_pages(
     base_delay: float = 1.0,
     max_delay: float = 8.0,
     use_providers: bool = False,
-    src_root: Optional[Path] = None
+    src_root: Optional[Path] = None,
+    system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
     """
     Extract structured data from all pages of a PDF using a given schema.
@@ -612,6 +413,8 @@ def extract_pdf_pages(
         max_delay: Maximum retry delay
         src_root: Source root directory (for relative path calculation)
         use_providers: If True, use provider architecture (default: False)
+        system_prompt: Optional explicit system prompt for vision models
+            if not provided, will auto-load from prompts/{schema_name}.txt
         
     Returns:
         Dict with statistics: {"written": n, "skipped": n, "failed": n, "total": n}
@@ -629,7 +432,8 @@ def extract_pdf_pages(
             max_retries=max_retries,
             base_delay=base_delay,
             max_delay=max_delay,
-            src_root=src_root
+            src_root=src_root,
+            system_prompt=system_prompt
         )
     
     # Legacy implementation without providers
@@ -768,7 +572,8 @@ def extract_all_pdfs(
     max_retries: int = 3,
     base_delay: float = 1.0,
     max_delay: float = 8.0,
-    use_providers: bool = False
+    use_providers: bool = False,
+    system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
     """
     Extract all PDFs in source directory using a given schema.
@@ -784,6 +589,9 @@ def extract_all_pdfs(
         max_retries: Maximum API retry attempts
         base_delay: Initial retry delay
         max_delay: Maximum retry delay
+        use_providers: If True, use provider architecture (default: False)
+        system_prompt: Optional explicit system prompt for vision models
+            if not provided, will auto-load from prompts/{schema_name}.txt
         
     Returns:
         Combined statistics across all PDFs
@@ -812,7 +620,8 @@ def extract_all_pdfs(
             base_delay=base_delay,
             max_delay=max_delay,
             src_root=src_root,
-            use_providers=use_providers
+            use_providers=use_providers,
+            system_prompt=system_prompt
         )
         
         for key in total_stats:
