@@ -31,6 +31,7 @@ data/gold_standard/raw/
 data/gold_standard/cleaned_backup/
 data/predictions/
 results
+La_Plume_minimal_test
 La_Plume_minimal_test.pdf
 
 #TODO
@@ -49,4 +50,6 @@ test_providers.py
 test_comparison.py
 tree.ipynb
 test_output_legacy
-test_output_provider
+test_output_provider.py
+test_vision_provider.py
+test_vision_output.json
