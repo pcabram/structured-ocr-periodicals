@@ -31,7 +31,22 @@ data/gold_standard/raw/
 data/gold_standard/cleaned_backup/
 data/predictions/
 results
+La_Plume_minimal_test.pdf
+
+#TODO
+CITATION.cff
+annotation_guide.md
+methodology.md
+abstract_court.txt
+abstract_long.txt
 
 # Experimental
 pipeline.ipynb
 albums.txt
+test_provider.py
+test_provider_output.json
+test_providers.py
+test_comparison.py
+tree.ipynb
+test_output_legacy
+test_output_provider
