@@ -2,9 +2,22 @@
 Model provider abstraction for document extraction.
 Supports multiple AI providers (Mistral, OpenAI, etc.) with a unified interface.
 Usage:
+    from pathlib import Path
     from utils.providers import get_model_provider
+    from schemas.stage1_page_v2 import Stage1PageModel
+
+    # OCR model
     provider = get_model_provider("mistral-ocr-latest")
-    result = provider.process_page(pdf_path, page_num=1, schema_class=MySchema)
+    result = provider.process_page(pdf_path, page_num=1, schema_class=Stage1PageModel)
+
+    # Vision model (requires system_prompt)
+    prompt = Path("prompts/stage1_page_v2.txt").read_text()
+    provider = get_model_provider("pixtral-12b-latest")
+    result = provider.process_page(
+        pdf_path, page_num=1,
+        schema_class=Stage1PageModel,
+        system_prompt=prompt
+    )    
 """
 from __future__ import annotations
 
@@ -13,13 +26,21 @@ from typing import TYPE_CHECKING
 
 from .base import ModelProvider
 from .mistral_ocr import MistralOCRProvider
+from .mistral_vision import MistralVisionProvider
 
 if TYPE_CHECKING:
     from pathlib import Path
 
 # Provider registry: maps model name to provider class
 PROVIDER_REGISTRY: dict[str, type[ModelProvider]] = {
+    # OCR models (native PDF support)
     "mistral-ocr-latest": MistralOCRProvider,
+
+    # Vision models (image-based with structured outputs)
+    "pixtral-12b-latest": MistralVisionProvider,
+    "pixtral-large-latest": MistralVisionProvider,
+    "mistral-medium-2508": MistralVisionProvider,
+    "mistral-small-2506": MistralVisionProvider,    
 }
 
 
@@ -62,6 +83,7 @@ def get_model_provider(
 __all__ = [
     "ModelProvider",
     "MistralOCRProvider",
+    "MistralVisionProvider"
     "get_model_provider",
     "PROVIDER_REGISTRY",
 ]
