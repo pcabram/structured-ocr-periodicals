@@ -106,6 +106,7 @@ def ensure_data_dirs() -> None:
 # ============================================================================
 
 def build_evaluation_path(
+    magazine_name: str,
     model_name: str,
     schema_name: str,
     prompt_name: str | None = None,
@@ -115,9 +116,10 @@ def build_evaluation_path(
     Build standardized evaluation output path.
 
     Directory structure:
-        base_root/model={model}/schema={schema}/prompt={prompt}/
+        base_root/{magazine}/model={model}/schema={schema}/prompt={prompt}/
 
     Args:
+        magazine_name: Magazine/PDF name (e.g., "La_Plume")
         model_name: Model identifier (e.g., "pixtral-12b-latest")
         schema_name: Schema identifier (e.g., "stage1_page_v2")
         prompt_name: Prompt identifier (e.g., "detailed_v1"), None for OCR models
@@ -128,11 +130,12 @@ def build_evaluation_path(
 
     Example:
         >>> out_root = build_evaluation_path(
+        ...     magazine_name="La_Plume",
         ...     model_name="pixtral-12b-latest",
         ...     schema_name="stage1_page_v2",
         ...     prompt_name="detailed_v1"
         ... )
-        >>> # Returns: data/predictions/evaluations/model=pixtral-12b-latest/schema=stage1_page_v2/prompt=detailed_v1
+        >>> # Returns: data/predictions/evaluations/La_Plume/model=pixtral-12b-latest/schema=stage1_page_v2/prompt=detailed_v1
     """
     import re
 
@@ -148,11 +151,12 @@ def build_evaluation_path(
         # Remove leading/trailing underscores
         return sanitized.strip('_')
 
+    magazine_clean = sanitize(magazine_name)
     model_clean = sanitize(model_name)
     schema_clean = sanitize(schema_name)
 
     # Build path with explicit dimension labels
-    path = base_root / f"model={model_clean}" / f"schema={schema_clean}"
+    path = base_root / magazine_clean / f"model={model_clean}" / f"schema={schema_clean}"
 
     # Add prompt dimension if provided (vision models)
     if prompt_name:
@@ -169,18 +173,18 @@ def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
     """
     Discover all extraction result directories.
 
-    Searches for directories matching: base_root/model=*/schema=*/prompt=*
+    Searches for directories matching: base_root/{magazine}/model=*/schema=*/prompt=*
 
     Args:
         base_root: Base evaluation directory (default: PREDICTIONS / "evaluations")
 
     Returns:
-        List of dicts with keys: model_name, schema_name, prompt_name, path
+        List of dicts with keys: magazine_name, model_name, schema_name, prompt_name, path, num_files
 
     Example:
         >>> results = discover_all_extractions()
         >>> for result in results:
-        ...     print(f"{result['model_name']} × {result['schema_name']} × {result['prompt_name']}")
+        ...     print(f"{result['magazine_name']}: {result['model_name']} × {result['schema_name']} × {result['prompt_name']}")
     """
     if base_root is None:
         base_root = PREDICTIONS / "evaluations"
@@ -190,8 +194,8 @@ def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
 
     discovered = []
 
-    # Find all directories matching: model=*/schema=*/prompt=*
-    for result_dir in base_root.glob("model=*/schema=*/prompt=*"):
+    # Find all directories matching: {magazine}/model=*/schema=*/prompt=*
+    for result_dir in base_root.glob("*/model=*/schema=*/prompt=*"):
         if not result_dir.is_dir():
             continue
 
@@ -202,6 +206,15 @@ def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
 
         # Parse metadata from path
         parts = result_dir.parts
+
+        # Find the magazine name
+        magazine_name = None
+        eval_idx = None
+        for i, part in enumerate(parts):
+            if part == "evaluations" and i + 1 < len(parts):
+                magazine_name = parts[i + 1]
+                break
+    
         model_name = None
         schema_name = None
         prompt_name = None
@@ -215,8 +228,9 @@ def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
                 prompt_value = part[7:]
                 prompt_name = None if prompt_value == "none" else prompt_value
 
-        if model_name and schema_name:
+        if magazine_name and model_name and schema_name:
             discovered.append({
+                "magazine_name": magazine_name,
                 "model_name": model_name,
                 "schema_name": schema_name,
                 "prompt_name": prompt_name,
@@ -224,8 +238,13 @@ def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
                 "num_files": len(json_files)
             })
 
-    # Sort by model, schema, prompt for consistency
-    discovered.sort(key=lambda d: (d["model_name"], d["schema_name"], d["prompt_name"] or ""))
+    # Sort by magazine, then model, schema, prompt for consistency
+    discovered.sort(key=lambda d: (
+        d["magazine_name"],
+        d["model_name"],
+        d["schema_name"],
+        d["prompt_name"] or ""
+    ))
 
     return discovered
 
