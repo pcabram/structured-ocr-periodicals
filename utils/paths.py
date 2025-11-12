@@ -101,6 +101,134 @@ def ensure_data_dirs() -> None:
         directory.mkdir(parents=True, exist_ok=True)
 
 
+# ============================================================================
+# EVALUATION PATH UTILITIES
+# ============================================================================
+
+def build_evaluation_path(
+    model_name: str,
+    schema_name: str,
+    prompt_name: str | None = None,
+    base_root: Path | None = None
+) -> Path:
+    """
+    Build standardized evaluation output path.
+
+    Directory structure:
+        base_root/model={model}/schema={schema}/prompt={prompt}/
+
+    Args:
+        model_name: Model identifier (e.g., "pixtral-12b-latest")
+        schema_name: Schema identifier (e.g., "stage1_page_v2")
+        prompt_name: Prompt identifier (e.g., "detailed_v1"), None for OCR models
+        base_root: Base directory (default: PREDICTIONS / "evaluations")
+
+    Returns:
+        Standardized path for extraction results
+
+    Example:
+        >>> out_root = build_evaluation_path(
+        ...     model_name="pixtral-12b-latest",
+        ...     schema_name="stage1_page_v2",
+        ...     prompt_name="detailed_v1"
+        ... )
+        >>> # Returns: data/predictions/evaluations/model=pixtral-12b-latest/schema=stage1_page_v2/prompt=detailed_v1
+    """
+    import re
+
+    if base_root is None:
+        base_root = PREDICTIONS / "evaluations"
+
+    # Sanitize names (replace spaces, special chars with underscores)
+    def sanitize(name: str) -> str:
+        # Replace spaces and special chars with underscores
+        sanitized = re.sub(r'[^\w\-.]', '_', name)
+        # Remove consecutive underscores
+        sanitized = re.sub(r'_+', '_', sanitized)
+        # Remove leading/trailing underscores
+        return sanitized.strip('_')
+
+    model_clean = sanitize(model_name)
+    schema_clean = sanitize(schema_name)
+
+    # Build path with explicit dimension labels
+    path = base_root / f"model={model_clean}" / f"schema={schema_clean}"
+
+    # Add prompt dimension if provided (vision models)
+    if prompt_name:
+        prompt_clean = sanitize(prompt_name)
+        path = path / f"prompt={prompt_clean}"
+    else:
+        # OCR models don't use prompts - use special marker
+        path = path / "prompt=none"
+
+    return path
+
+
+def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
+    """
+    Discover all extraction result directories.
+
+    Searches for directories matching: base_root/model=*/schema=*/prompt=*
+
+    Args:
+        base_root: Base evaluation directory (default: PREDICTIONS / "evaluations")
+
+    Returns:
+        List of dicts with keys: model_name, schema_name, prompt_name, path
+
+    Example:
+        >>> results = discover_all_extractions()
+        >>> for result in results:
+        ...     print(f"{result['model_name']} × {result['schema_name']} × {result['prompt_name']}")
+    """
+    if base_root is None:
+        base_root = PREDICTIONS / "evaluations"
+
+    if not base_root.exists():
+        return []
+
+    discovered = []
+
+    # Find all directories matching: model=*/schema=*/prompt=*
+    for result_dir in base_root.glob("model=*/schema=*/prompt=*"):
+        if not result_dir.is_dir():
+            continue
+
+        # Check if results exist (JSON files)
+        json_files = list(result_dir.rglob("*.json"))
+        if not json_files:
+            continue
+
+        # Parse metadata from path
+        parts = result_dir.parts
+        model_name = None
+        schema_name = None
+        prompt_name = None
+
+        for part in parts:
+            if part.startswith("model="):
+                model_name = part[6:]
+            elif part.startswith("schema="):
+                schema_name = part[7:]
+            elif part.startswith("prompt="):
+                prompt_value = part[7:]
+                prompt_name = None if prompt_value == "none" else prompt_value
+
+        if model_name and schema_name:
+            discovered.append({
+                "model_name": model_name,
+                "schema_name": schema_name,
+                "prompt_name": prompt_name,
+                "path": result_dir,
+                "num_files": len(json_files)
+            })
+
+    # Sort by model, schema, prompt for consistency
+    discovered.sort(key=lambda d: (d["model_name"], d["schema_name"], d["prompt_name"] or ""))
+
+    return discovered
+
 # Module self-test (runs when imported)
 
 # Verify project structure on import
