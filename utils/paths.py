@@ -17,7 +17,7 @@ Usage in scripts:
 """
 
 from pathlib import Path
-
+from typing import Optional, Set, Tuple
 
 def get_project_root() -> Path:
     """
@@ -303,15 +303,24 @@ def discover_existing_extractions(base_root: Path | None = None) -> set[tuple[st
          ('La_Plume', 'pixtral-12b-latest', 'stage1_page_v2', 'detailed_v1'),
          ...}
     """
-    # Use the existing discovery function
-    all_results = discover_all_extractions(base_root)
+    if base_root is None:
+        base_root = PREDICTIONS / "evaluations"
 
-    # Convert to set of tuples
-    existing = {
-        (r["magazine_name"], r["model_name"], r["schema_name"], r["prompt_name"])
-        for r in all_results
-    }
+    existing: Set[Tuple[str, str, str, Optional[str]]] = set()
+    if not base_root.exists():
+        return existing
 
+    for mag_dir in sorted(p for p in base_root.iterdir() if p.is_dir()):
+        magazine = mag_dir.name
+        for model_dir in mag_dir.glob("model=*"):
+            model = model_dir.name.split("=", 1)[1]
+            for schema_dir in model_dir.glob("schema=*"):
+                schema = schema_dir.name.split("=", 1)[1]
+                for prompt_dir in schema_dir.glob("prompt=*"):
+                    prompt_raw = prompt_dir.name.split("=", 1)[1]
+                    prompt: Optional[str] = None if prompt_raw == "none" else prompt_raw
+                    if (prompt_dir / "_COMPLETE.ok").exists():
+                        existing.add((magazine, model, schema, prompt))
     return existing
 
 

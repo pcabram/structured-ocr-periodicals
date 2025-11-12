@@ -361,6 +361,12 @@ def _extract_pdf_pages_with_provider(
             logger.error(f"Failed to write {out_json.name}: {e}")
             stats["failed"] += 1
 
+    try:
+        if stats["total"] > 0 and (stats["written"] + stats["skipped"]) >= stats["total"]:
+            (out_dir / "_COMPLETE.ok").touch()
+    except Exception:
+        pass
+
     # Log summary
     logger.info(
         f"✓ {pdf_path.name}: "
@@ -396,14 +402,13 @@ def extract_pdf_pages(
         pdf_path: Path to PDF file
         schema_class: Pydantic model class for schema (e.g., Stage1PageModel)
         client: Mistral API client (only required if use_providers=False)
-        out_root: Root directory for output
+        out_root: Output directory for this (magazine/model/schema/prompt) combo
         model_name: Mistral model to use
         overwrite: Whether to overwrite existing files
         zero_pad: Number of digits for page numbering
         max_retries: Maximum API retry attempts
         base_delay: Initial retry delay
         max_delay: Maximum retry delay
-        src_root: Source root directory (for relative path calculation)
         use_providers: If True, use provider architecture (default: False)
         prompt_name: Name of prompt file to load (e.g., "detailed_v1")
         system_prompt: Optional explicit system prompt string (overrides prompt_name)
@@ -536,6 +541,13 @@ def extract_pdf_pages(
         except Exception as e:
             logger.error(f"Failed to write {out_json.name}: {e}")
             stats["failed"] += 1
+    
+    try:
+        # Mark directory complete if all pages are present (written + previously skipped)
+        if stats["written"] + stats["skipped"] == stats["total"] and stats["total"] > 0:
+            (out_dir / "_COMPLETE.ok").touch()
+    except Exception as _:
+        pass
     
     # Log summary
     logger.info(
