@@ -201,19 +201,17 @@ def validate_extraction(
 # PROMPT LOADING
 # ============================================================================
 
-def _load_prompt_for_schema(
-    schema_class: type[BaseModel],
+def _load_prompt(
+    prompt_name: Optional[str] = None,
     explicit_prompt: Optional[str] = None
 ) -> Optional[str]:
     """
     Load system prompt for vision models.
 
-    Auto-loads prompt based on schema module name:
-    - schemas.stage1_page_v2 -> prompts/stage1_page_v2.txt
-
     Args:
-        schema_class: Pydantic model class defining extraction schema
-        explicit_prompt: Optional explicit prompt string (overrides auto-load)
+    prompt_name: Name of prompt file (without .txt extension)
+        Example: "detailed_v1" -> prompts/detailed_v1.txt
+    explicit_prompt: Optional explicit prompt string (overrides prompt_name)    
 
     Returns:
         Prompt string if found/provided, None otherwise (OCR models don't need prompts)
@@ -222,24 +220,20 @@ def _load_prompt_for_schema(
     if explicit_prompt:
         return explicit_prompt
 
-    # Auto-load based on schema module name
-    # Example: schemas.stage1_page_v2 -> stage1_page_v2
-    schema_module = schema_class.__module__
-    if '.' in schema_module:
-        schema_name = schema_module.split('.')[-1]
-    else:
-        schema_name = schema_module
+    # If no prompt name specified, return None (OCR models)
+    if not prompt_name:
+        return None
 
-    # Check if corresponding prompt file exists
+    # Load prompt from file
     from .paths import PROJECT_ROOT
-    prompt_path = PROJECT_ROOT / "prompts" / f"{schema_name}.txt"
+    prompt_path = PROJECT_ROOT / "prompts" / f"{prompt_name}.txt"
 
     if prompt_path.exists():
-        logger.debug(f"Auto-loaded prompt: {prompt_path}")
+        logger.debug(f"Loaded prompt: {prompt_path}")
         return prompt_path.read_text(encoding='utf-8')
 
-    # No prompt found (OCR models don't need them)
-    logger.debug(f"No prompt file found for schema: {schema_name}")
+    # Prompt file not found
+    logger.debug(f"Prompt file not found: {prompt_path}")
     return None
 # ============================================================================
 # CORE EXTRACTION
@@ -256,20 +250,25 @@ def _extract_pdf_pages_with_provider(
     base_delay: float = 1.0,
     max_delay: float = 8.0,
     src_root: Optional[Path] = None,
+    prompt_name: Optional[str] = None,
     system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
     """
     Extract PDF pages using provider architecture.
 
     Internal function - use extract_pdf_pages() with use_providers=True instead.
+
+    Args:
+        prompt_name: Name of prompt file to load (e.g., "detailed_v1")
+        system_prompt: Optional explicit prompt string (overrides prompt_name)
     """
     from .providers import get_model_provider
 
     # Initialize provider
     provider = get_model_provider(model_name)
 
-    # Load prompt if vision model (auto-load or explicit)
-    prompt = _load_prompt_for_schema(schema_class, system_prompt)
+    # Load prompt if vision model
+    prompt = _load_prompt(prompt_name=prompt_name, explicit_prompt=system_prompt)
 
     # Count pages
     n_pages = count_pages(pdf_path)
@@ -392,6 +391,7 @@ def extract_pdf_pages(
     max_delay: float = 8.0,
     use_providers: bool = False,
     src_root: Optional[Path] = None,
+    prompt_name: Optional[str] = None,
     system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
     """
@@ -413,8 +413,8 @@ def extract_pdf_pages(
         max_delay: Maximum retry delay
         src_root: Source root directory (for relative path calculation)
         use_providers: If True, use provider architecture (default: False)
-        system_prompt: Optional explicit system prompt for vision models
-            if not provided, will auto-load from prompts/{schema_name}.txt
+        prompt_name: Name of prompt file to load (e.g., "detailed_v1")
+        system_prompt: Optional explicit system prompt string (overrides prompt_name)
         
     Returns:
         Dict with statistics: {"written": n, "skipped": n, "failed": n, "total": n}
@@ -433,6 +433,7 @@ def extract_pdf_pages(
             base_delay=base_delay,
             max_delay=max_delay,
             src_root=src_root,
+            prompt_name=prompt_name,
             system_prompt=system_prompt
         )
     
@@ -573,6 +574,7 @@ def extract_all_pdfs(
     base_delay: float = 1.0,
     max_delay: float = 8.0,
     use_providers: bool = False,
+    prompt_name: Optional[str] = None,
     system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
     """
@@ -590,8 +592,8 @@ def extract_all_pdfs(
         base_delay: Initial retry delay
         max_delay: Maximum retry delay
         use_providers: If True, use provider architecture (default: False)
-        system_prompt: Optional explicit system prompt for vision models
-            if not provided, will auto-load from prompts/{schema_name}.txt
+        prompt_name: Name of prompt file to load (e.g., "detailed_v1")
+        system_prompt: Optional explicit system prompt string (overrides prompt_name)
         
     Returns:
         Combined statistics across all PDFs
@@ -621,6 +623,7 @@ def extract_all_pdfs(
             max_delay=max_delay,
             src_root=src_root,
             use_providers=use_providers,
+            prompt_name=prompt_name,
             system_prompt=system_prompt
         )
         

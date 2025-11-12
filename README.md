@@ -10,7 +10,7 @@ This project demonstrates how VLMs can extract structured, semantically-rich dat
 
 By providing the VLM with a detailed Pydantic schema describing our target data structure, we transform raw PDF pages into structured JSON annotations that segment the original content into individual contributions (items) with their associated metadata (authors, titles, continuation markers), along with page-level metadata.
 
-## Repository Contents
+## Repository contents
 
 **Schemas** - 7 Pydantic model variants for different extraction granularities  
 **Utils** - Extraction pipeline, evaluation metrics, text processing  
@@ -21,7 +21,7 @@ By providing the VLM with a detailed Pydantic schema describing our target data 
 Click on project structure below for detailed file organization.
 
 <details>
-<summary>📁 Detailed File Structure</summary>
+<summary>📁 Detailed file structure</summary>
 
 ```
 structured-ocr-for-periodicals/
