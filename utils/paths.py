@@ -33,14 +33,13 @@ def get_project_root() -> Path:
         RuntimeError: If pyproject.toml not found in any parent directory
     """
     # Start from this file's location
-    current = Path(__file__).resolve()
+    current = Path(__file__).resolve().parent
 
     # Check this directory and all parent directories
     for parent in [current] + list(current.parents):
         if (parent / "pyproject.toml").exists():
             return parent
 
-    # If we get here, we couldn't find the project root
     raise RuntimeError(
         "Could not find project root (no pyproject.toml found). "
         "Are you running from within the project directory?"
@@ -247,6 +246,175 @@ def discover_all_extractions(base_root: Path | None = None) -> list[dict]:
     ))
 
     return discovered
+
+
+# ============================================================================
+# SMART EXTRACTION LOGIC
+# ============================================================================
+
+def discover_available_magazines(src_root: Path | None = None) -> list[str]:
+    """
+    Discover all available magazine PDFs in the raw data directory.
+
+    Args:
+        src_root: Source directory with PDFs (default: RAW_DATA)
+
+    Returns:
+        List of magazine names (PDF filenames without .pdf extension)
+
+    Example:
+        >>> magazines = discover_available_magazines()
+        >>> print(magazines)
+        ['La_Plume', 'Le_Mercure_de_France', ...]
+    """
+    if src_root is None:
+        src_root = RAW_DATA
+
+    if not src_root.exists():
+        return []
+
+    # Find all PDF files
+    pdf_files = src_root.rglob("*.pdf")
+
+    # Extract magazine names (stem = filename without extension)
+    # Use set to deduplicate (in case of subdirectories with same PDF names)
+    magazines = sorted({pdf.stem for pdf in pdf_files})
+
+    return magazines
+
+
+def discover_existing_extractions(base_root: Path | None = None) -> set[tuple[str, str, str, str | None]]:
+    """
+    Discover what extractions already exist.
+
+    Scans the evaluations directory and returns a set of tuples representing
+    existing extractions: (magazine, model, schema, prompt)
+
+    Args:
+        base_root: Base evaluation directory (default: PREDICTIONS / "evaluations")
+
+    Returns:
+        Set of tuples: (magazine_name, model_name, schema_name, prompt_name)
+
+    Example:
+        >>> existing = discover_existing_extractions()
+        >>> print(existing)
+        {('La_Plume', 'mistral-ocr-latest', 'stage1_page_v2', None),
+         ('La_Plume', 'pixtral-12b-latest', 'stage1_page_v2', 'detailed_v1'),
+         ...}
+    """
+    # Use the existing discovery function
+    all_results = discover_all_extractions(base_root)
+
+    # Convert to set of tuples
+    existing = {
+        (r["magazine_name"], r["model_name"], r["schema_name"], r["prompt_name"])
+        for r in all_results
+    }
+
+    return existing
+
+
+def generate_all_combinations(
+    magazines: list[str],
+    models: list[str],
+    schemas: list[str],
+    prompts: list[str]
+) -> set[tuple[str, str, str, str | None]]:
+    """
+    Generate all possible extraction combinations.
+
+    Handles OCR models specially: they don't use prompts (prompt=None).
+    Vision models: tested with all prompt variants.
+
+    Args:
+        magazines: List of magazine names
+        models: List of model names
+        schemas: List of schema names
+        prompts: List of prompt names
+
+    Returns:
+        Set of tuples: (magazine_name, model_name, schema_name, prompt_name)
+
+    Example:
+        >>> combos = generate_all_combinations(
+        ...     magazines=['La_Plume'],
+        ...     models=['mistral-ocr-latest', 'pixtral-12b-latest'],
+        ...     schemas=['stage1_page_v2'],
+        ...     prompts=['detailed_v1']
+        ... )
+        >>> print(combos)
+        {('La_Plume', 'mistral-ocr-latest', 'stage1_page_v2', None),
+         ('La_Plume', 'pixtral-12b-latest', 'stage1_page_v2', 'detailed_v1')}
+    """
+    combinations = set()
+
+    for magazine in magazines:
+        for model in models:
+            for schema in schemas:
+                # Check if this is an OCR model
+                is_ocr = 'ocr' in model.lower()
+
+                if is_ocr:
+                    # OCR models: one extraction per schema (no prompts)
+                    combinations.add((magazine, model, schema, None))
+                else:
+                    # Vision models: require prompts
+                    if not prompts:
+                        raise ValueError(
+                            f"Vision model '{model}' requires prompts, but none provided. "
+                            f"Please specify at least one prompt variant."
+                        )
+                    # Test all prompts
+                    for prompt in prompts:
+                        combinations.add((magazine, model, schema, prompt))
+
+    return combinations
+
+
+def calculate_missing_extractions(
+    magazines: list[str],
+    models: list[str],
+    schemas: list[str],
+    prompts: list[str],
+    base_root: Path | None = None
+) -> set[tuple[str, str, str, str | None]]:
+    """
+    Calculate which extractions are missing.
+
+    Compares what SHOULD exist (all combinations) with what DOES exist.
+    Returns only the missing ones.
+
+    Args:
+        magazines: List of magazine names
+        models: List of model names
+        schemas: List of schema names
+        prompts: List of prompt names
+        base_root: Base evaluation directory (default: PREDICTIONS / "evaluations")
+
+    Returns:
+        Set of missing tuples: (magazine_name, model_name, schema_name, prompt_name)
+
+    Example:
+        >>> missing = calculate_missing_extractions(
+        ...     magazines=['La_Plume'],
+        ...     models=['mistral-ocr-latest'],
+        ...     schemas=['stage1_page_v2'],
+        ...     prompts=[]
+        ... )
+        >>> if missing:
+        ...     print(f"{len(missing)} extraction(s) missing")
+    """
+    # What should exist
+    expected = generate_all_combinations(magazines, models, schemas, prompts)
+
+    # What does exist
+    existing = discover_existing_extractions(base_root)
+
+    # What's missing
+    missing = expected - existing
+
+    return missing
 
 # Module self-test (runs when imported)
 
