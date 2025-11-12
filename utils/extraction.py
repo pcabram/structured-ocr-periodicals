@@ -249,7 +249,6 @@ def _extract_pdf_pages_with_provider(
     max_retries: int = 3,
     base_delay: float = 1.0,
     max_delay: float = 8.0,
-    src_root: Optional[Path] = None,
     prompt_name: Optional[str] = None,
     system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
@@ -278,13 +277,7 @@ def _extract_pdf_pages_with_provider(
         return {"written": 0, "skipped": 0, "failed": 0, "total": 0}
 
     # Setup output directory
-    if src_root:
-        rel_path = pdf_path.relative_to(src_root).with_suffix("")
-    else:
-        rel_path = pdf_path.with_suffix("")
-
-    out_dir = out_root / rel_path
-
+    out_dir = out_root
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # Statistics
@@ -390,7 +383,6 @@ def extract_pdf_pages(
     base_delay: float = 1.0,
     max_delay: float = 8.0,
     use_providers: bool = False,
-    src_root: Optional[Path] = None,
     prompt_name: Optional[str] = None,
     system_prompt: Optional[str] = None
 ) -> Dict[str, int]:
@@ -432,7 +424,6 @@ def extract_pdf_pages(
             max_retries=max_retries,
             base_delay=base_delay,
             max_delay=max_delay,
-            src_root=src_root,
             prompt_name=prompt_name,
             system_prompt=system_prompt
         )
@@ -450,12 +441,7 @@ def extract_pdf_pages(
         return {"written": 0, "skipped": 0, "failed": 0, "total": 0}
     
     # Setup output directory
-    if src_root:
-        rel_path = pdf_path.relative_to(src_root).with_suffix("")
-    else:
-        rel_path = pdf_path.with_suffix("")
-    
-    out_dir = out_root / rel_path
+    out_dir = out_root
     out_dir.mkdir(parents=True, exist_ok=True)
     
     # Encode PDF
@@ -621,7 +607,6 @@ def extract_all_pdfs(
             max_retries=max_retries,
             base_delay=base_delay,
             max_delay=max_delay,
-            src_root=src_root,
             use_providers=use_providers,
             prompt_name=prompt_name,
             system_prompt=system_prompt

@@ -58,3 +58,4 @@ test_comparison_vision.json
 test_comparison_ocr.json
 test_auto_prompt.py
 test_prompt_refactor_minimal.py
+test_code_quality_fixes.py
