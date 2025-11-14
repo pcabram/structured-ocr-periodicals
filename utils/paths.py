@@ -433,3 +433,61 @@ if not PROJECT_ROOT.exists():
 
 if not (PROJECT_ROOT / "pyproject.toml").exists():
     raise RuntimeError(f"pyproject.toml not found in: {PROJECT_ROOT}")
+
+
+# ============================================================================
+# SCHEMA UTILITIES (FROM 01f)
+# ============================================================================
+
+def detect_schema_family(schema_name: str) -> Optional[str]:
+    """
+    Detect schema family by checking if continuation fields are defined in the schema class.
+    Args:
+        schema_name: Name of schema (e.g., 'stage1_page', 'stage1_page_v2')
+    Returns:
+        'with_continuations' or 'without_continuations' or None if cannot determine
+    """
+    import importlib.util
+    import inspect
+
+    # Map schema name to schema file
+    schema_file = SCHEMAS / f'{schema_name}.py'
+
+    if not schema_file.exists():
+        return None
+
+    try:
+        # Load the schema module dynamically
+        spec = importlib.util.spec_from_file_location(schema_name, schema_file)
+        if spec is None or spec.loader is None:
+            return None
+
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        # Find the Item class (Stage1Item or similar)
+        item_class = None
+        for name, obj in inspect.getmembers(module):
+            if inspect.isclass(obj) and 'Item' in name and name != 'BaseModel':
+                item_class = obj
+                break
+
+        if item_class is None:
+            return None
+
+        # Check if continuation fields are defined in the model
+        model_fields = item_class.model_fields if hasattr(item_class, 'model_fields') else {}
+
+        has_is_continuation = 'is_continuation' in model_fields
+        has_continues = 'continues_on_next_page' in model_fields
+
+        if has_is_continuation and has_continues:
+            return 'with_continuations'
+        elif not has_is_continuation and not has_continues:
+            return 'without_continuations'
+        else:
+            # Has one but not the other - treat as with continuations
+            return 'with_continuations' if (has_is_continuation or has_continues) else 'without_continuations'
+
+    except Exception:
+        return None
