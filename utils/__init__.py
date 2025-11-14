@@ -43,7 +43,7 @@ __all__ = [
     'extract_all_pdfs',
     # Evaluation paths
     'build_evaluation_path',
-    'discover_all_extractions'
+    'discover_all_extractions',
     'discover_available_magazines',
     'discover_existing_extractions',
     'generate_all_combinations',
