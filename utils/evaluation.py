@@ -628,3 +628,272 @@ def evaluate_continuation_all_items(
             'f1': continues_f1
         }
     }
+
+# ============================================================================
+# WORD AND CHARACTER COVERAGE (FROM 01d)
+# ============================================================================
+
+def calculate_word_coverage(reference: str, hypothesis: str, normalization: str = 'standard') -> Dict:
+    """
+    Calculate word-level precision, recall, and F1 (bag-of-words).
+
+    Order-agnostic comparison using set operations.
+
+    Args:
+        reference: Reference text (gold standard)
+        hypothesis: Hypothesis text (OCR output)
+        normalization: Normalization level ('strict', 'standard', 'letters_only')
+
+    Returns:
+        Dict with precision, recall, f1, and word counts
+    """
+    from .text_processing import normalize_text_strict, normalize_text_standard
+
+    # Apply normalization
+    if normalization == 'strict':
+        ref = normalize_text_strict(reference)
+        hyp = normalize_text_strict(hypothesis)
+    elif normalization == 'standard':
+        ref = normalize_text_standard(reference)
+        hyp = normalize_text_standard(hypothesis)
+    elif normalization == 'letters_only':
+        # Use standard for word-level (need word boundaries)
+        ref = normalize_text_standard(reference)
+        hyp = normalize_text_standard(hypothesis)
+    else:
+        ref = reference
+        hyp = hypothesis
+
+    words_ref = set(ref.split())
+    words_hyp = set(hyp.split())
+
+    if len(words_ref) == 0 and len(words_hyp) == 0:
+        precision = 1.0
+        recall = 1.0
+    elif len(words_hyp) == 0:
+        precision = 0.0
+        recall = 0.0
+    elif len(words_ref) == 0:
+        precision = 0.0
+        recall = 0.0
+    else:
+        # Precision: % of hypothesis words that appear in reference
+        precision = len(words_ref & words_hyp) / len(words_hyp)
+        recall = len(words_ref & words_hyp) / len(words_ref)
+
+    # Calculate F1
+    if precision + recall == 0:
+        f1 = 0.0
+    else:
+        f1 = 2 * precision * recall / (precision + recall)
+
+    return {
+        'precision': precision,
+        'recall': recall,
+        'f1': f1,
+        'shared_words': len(words_ref & words_hyp),
+        'unique_to_hyp': len(words_hyp - words_ref),
+        'unique_to_ref': len(words_ref - words_hyp),
+        'total_ref_words': len(words_ref),
+        'total_hyp_words': len(words_hyp)
+    }
+
+
+def calculate_character_coverage(reference: str, hypothesis: str, normalization: str = 'letters_only') -> Dict:
+    """
+    Calculate character-level precision, recall, and F1 (bag-of-chars with frequency).
+
+    Uses Counter to respect character frequency. Order-agnostic.
+    Best used with 'letters_only' normalization.
+
+    Args:
+        reference: Reference text (gold standard)
+        hypothesis: Hypothesis text (OCR output)
+        normalization: Normalization level ('letters_only', 'standard', 'strict')
+
+    Returns:
+        Dict with precision, recall, f1, and character counts
+    """
+    from collections import Counter
+    from .text_processing import normalize_text_strict, normalize_text_standard, normalize_text_letters_only
+
+    # Apply normalization
+    if normalization == 'letters_only':
+        ref = normalize_text_letters_only(reference)
+        hyp = normalize_text_letters_only(hypothesis)
+    elif normalization == 'standard':
+        ref = normalize_text_standard(reference)
+        hyp = normalize_text_standard(hypothesis)
+    else:  # strict
+        ref = normalize_text_strict(reference)
+        hyp = normalize_text_strict(hypothesis)
+
+    # Count character frequencies
+    ref_counter = Counter(ref)
+    hyp_counter = Counter(hyp)
+
+    # Calculate matches (minimum count for each character)
+    matches = ref_counter & hyp_counter
+    matched_count = sum(matches.values())
+
+    total_ref = sum(ref_counter.values())
+    total_hyp = sum(hyp_counter.values())
+
+    # Calculate metrics
+    if total_ref == 0 and total_hyp == 0:
+        precision = 1.0
+        recall = 1.0
+        f1 = 1.0
+    elif total_hyp == 0:
+        precision = 0.0
+        recall = 0.0
+        f1 = 0.0
+    elif total_ref == 0:
+        precision = 0.0
+        recall = 0.0
+        f1 = 0.0
+    else:
+        precision = matched_count / total_hyp
+        recall = matched_count / total_ref
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+
+    # Diagnostic metrics
+    unique_ref_chars = len(ref_counter)
+    unique_hyp_chars = len(hyp_counter)
+    unique_matched_chars = len(matches)
+
+    return {
+        'precision': precision,
+        'recall': recall,
+        'f1': f1,
+        'matched_chars': matched_count,
+        'total_ref_chars': total_ref,
+        'total_hyp_chars': total_hyp,
+        'unique_ref_chars': unique_ref_chars,
+        'unique_hyp_chars': unique_hyp_chars,
+        'unique_matched_chars': unique_matched_chars
+    }
+
+
+# ============================================================================
+# DETAILED CLASSIFICATION METRICS (FROM 01c)
+# ============================================================================
+
+def evaluate_classification_detailed(
+    gold_items: List[Dict],
+    pred_items: List[Dict],
+    matches: List[Tuple[int, int, float]],
+    class_labels: Optional[List[str]] = None
+) -> Dict:
+    """
+    Evaluate classification with per-class metrics and confusion matrix.
+
+    Args:
+        gold_items: List of gold standard items
+        pred_items: List of predicted items
+        matches: List of (gold_idx, pred_idx, score) tuples
+        class_labels: List of class labels (default: ['prose', 'verse', 'ad', 'paratext', 'unknown'])
+
+    Returns:
+        Dict with overall accuracy, per-class metrics, confusion matrix, and macro/weighted averages
+    """
+    import numpy as np
+
+    if class_labels is None:
+        class_labels = ['prose', 'verse', 'ad', 'paratext', 'unknown']
+
+    if not matches:
+        return {
+            'overall_accuracy': 0.0,
+            'per_class': {},
+            'confusion_matrix': np.zeros((len(class_labels), len(class_labels))),
+            'macro_avg': {'precision': 0.0, 'recall': 0.0, 'f1': 0.0},
+            'weighted_avg': {'precision': 0.0, 'recall': 0.0, 'f1': 0.0}
+        }
+
+    matched_pairs = get_matched_pairs(matches, gold_items, pred_items)
+
+    gold_classes = []
+    pred_classes = []
+
+    for gold_item, pred_item, _ in matched_pairs:
+        gold_classes.append(gold_item['item_class'])
+        pred_classes.append(pred_item['item_class'])
+
+    # Overall accuracy
+    correct = sum(1 for g, p in zip(gold_classes, pred_classes) if g == p)
+    total = len(gold_classes)
+    overall_accuracy = correct / total if total > 0 else 0.0
+
+    # Confusion matrix
+    cm = np.zeros((len(class_labels), len(class_labels)), dtype=int)
+
+    label_to_idx = {label: idx for idx, label in enumerate(class_labels)}
+
+    for g_class, p_class in zip(gold_classes, pred_classes):
+        if g_class in label_to_idx and p_class in label_to_idx:
+            g_idx = label_to_idx[g_class]
+            p_idx = label_to_idx[p_class]
+            cm[g_idx][p_idx] += 1
+
+    # Per-class metrics
+    per_class = {}
+    precisions = []
+    recalls = []
+    f1s = []
+    supports = []
+
+    for i, label in enumerate(class_labels):
+        tp = cm[i][i]
+        fp = cm[:, i].sum() - tp
+        fn = cm[i, :].sum() - tp
+        support = cm[i, :].sum()
+
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+
+        per_class[label] = {
+            'precision': precision,
+            'recall': recall,
+            'f1': f1,
+            'support': support
+        }
+
+        precisions.append(precision)
+        recalls.append(recall)
+        f1s.append(f1)
+        supports.append(support)
+
+    # Macro average (unweighted)
+    macro_precision = np.mean(precisions)
+    macro_recall = np.mean(recalls)
+    macro_f1 = np.mean(f1s)
+
+    # Weighted average (by support)
+    total_support = sum(supports)
+    if total_support > 0:
+        weighted_precision = sum(p * s for p, s in zip(precisions, supports)) / total_support
+        weighted_recall = sum(r * s for r, s in zip(recalls, supports)) / total_support
+        weighted_f1 = sum(f * s for f, s in zip(f1s, supports)) / total_support
+    else:
+        weighted_precision = 0.0
+        weighted_recall = 0.0
+        weighted_f1 = 0.0
+
+    return {
+        'overall_accuracy': overall_accuracy,
+        'per_class': per_class,
+        'confusion_matrix': cm,
+        'class_labels': class_labels,
+        'macro_avg': {
+            'precision': macro_precision,
+            'recall': macro_recall,
+            'f1': macro_f1
+        },
+        'weighted_avg': {
+            'precision': weighted_precision,
+            'recall': weighted_recall,
+            'f1': weighted_f1
+        }
+    }
