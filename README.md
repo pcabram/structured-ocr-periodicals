@@ -12,11 +12,11 @@ By providing the VLM with a detailed Pydantic schema describing our target data 
 
 ## Repository contents
 
-**Schemas** - 7 Pydantic model variants for different extraction granularities  
-**Utils** - Extraction pipeline, evaluation metrics, text processing  
-**Notebooks** - Complete workflow from PDF extraction to comparative evaluation (6 notebooks)  
-**Data** - Example corpus (*La Plume*), gold standard annotations, BnF OCR baseline  
-**Docs** - Data model specification, methodology, annotation guidelines  
+**Schemas** - 7 Pydantic model variants for different extraction granularities
+**Utils** - Extraction pipeline, evaluation metrics, text processing
+**Notebooks** - Complete workflow from PDF extraction to comparative evaluation (3 notebooks)
+**Data** - Example corpus (*La Plume*), gold standard annotations, BnF OCR baseline
+**Docs** - Data model specification and ontology
 
 Click on project structure below for detailed file organization.
 
@@ -27,7 +27,7 @@ Click on project structure below for detailed file organization.
 structured-ocr-for-periodicals/
 ├── schemas/              # Pydantic models (7 variants)
 ├── utils/                # Extraction & evaluation pipeline
-├── notebooks/            # Interactive workflows (01a-01f)
+├── notebooks/            # Interactive workflows (01a-01c)
 ├── data/
 │   ├── raw/              # Source PDFs
 │   ├── gold_standard/    # Manual annotations
@@ -35,7 +35,7 @@ structured-ocr-for-periodicals/
 │   └── predictions/      # VLM outputs
 ├── docs/                 # Methodology & specifications
 ├── tests/                # Unit tests
-└── presentation/         # Conference materials
+└── prompts/              # System prompts for vision models
 ```
 
 </details>
@@ -170,15 +170,15 @@ The VLM correctly identifies about half of the individual contribution boundarie
 
 ---
 
-For complete evaluation methodology and metrics across all 5 dimensions (structure, text, classification, metadata, continuations), see `utils/evaluation.py`, `notebooks/01c_extraction_evaluation.ipynb` and `notebooks/01f_multi_schema_comparative_evaluation.ipynb`.
+For complete evaluation methodology and metrics across all 5 dimensions (structure, text, classification, metadata, continuations), see `utils/evaluation.py` and `notebooks/01c_evaluation.ipynb`.
 
 ### Methodological contributions
 
 **1. Schema-driven pipeline architecture**
 The extraction logic is decoupled from the schema specification. Adding new fields or modifying extraction granularity requires only changing the Pydantic schema definition. This design is transferable to other document types, languages, and historical periods.
 
-**2. Schema variants for empirical comparison for prompt engineering**  
-7 Pydantic schema variants with different field granularities enable empirical evaluation of quality-cost trade-offs and explore the model's performance under instructions of varying detail. This systematic comparison (see `notebooks/01f_multi_schema_comparative_evaluation.ipynb`) reveals how instruction complexity affects extraction quality.
+**2. Schema variants for empirical comparison for prompt engineering**
+7 Pydantic schema variants with different field granularities enable empirical evaluation of quality-cost trade-offs and explore the model's performance under instructions of varying detail. This systematic comparison (see `notebooks/01c_evaluation.ipynb`) reveals how instruction complexity affects extraction quality.
 
 Common structure across variants is documented in `docs/ontology.md`.
 
@@ -191,7 +191,7 @@ Systematic assessment across 5 dimensions:
 - **Continuation tracking**: Cross-page relationship detection
 
 **4. Reproducible gold standard corpus**  
-48 manually annotated pages from *La Plume* (1889-1893) following explicit annotation guidelines (`docs/annotation_guide.md`). This reference corpus enables:
+48 manually annotated pages from *La Plume* (1889-1893) following ethe data model specified in `docs/ontology.md`. This reference corpus enables:
 - Systematic quality evaluation
 - Future model fine-tuning
 - Comparison with other extraction methods (demonstrated with BnF OCR baseline)
@@ -227,29 +227,35 @@ This project is designed to be used interactively through Jupyter notebooks. The
 ### Notebooks workflow
 
 **01a. Extraction** (`notebooks/01a_extraction.ipynb`)
-Extract pages from a PDF using a single schema variant. Start here to understand the basic extraction process.
+
+Extract pages from PDFs using configurable schema variants. This notebook demonstrates the complete extraction pipeline, including:
+- Single-page and batch extraction
+- Multiple schema variant support
+- Configurable model and prompt settings
+- Output validation and statistics
+
+Start here to understand the extraction process and generate predictions for evaluation.
 
 **01b. Gold Standard Creation** (`notebooks/01b_gold_standard_creation.ipynb`)
-Interactive workflow for creating manual annotations. Shows how the reference corpus was built, thanks to a pre-annotation from the VLM output.
 
-**01c. Extraction Evaluation** (`notebooks/01c_extraction_evaluation.ipynb`)
-Evaluate extraction quality on a single schema. Detailed metrics across all 5 dimensions (structure, text, classification, metadata, continuations).
+Interactive workflow for creating manual annotations. Shows how the reference corpus was built, using VLM output as pre-annotation and human manual correction.
 
-**01d. Comparative Evaluation** (`notebooks/01d_comparative_evaluation.ipynb`)
-Compare two schema variants side-by-side. Useful for understanding trade-offs.
+**01c. Comprehensive Evaluation** (`notebooks/01c_evaluation.ipynb`)
 
-**01e. Multi-Schema Extraction** (`notebooks/01e_multi_schema_extraction.ipynb`)
-Batch extract PDFs using multiple schema variants. Generates predictions for comparative analysis.
+Complete evaluation framework with multi-dimensional metrics and comparative analysis:
 
-**01f. Multi-Schema Comparative Evaluation** (`notebooks/01f_multi_schema_comparative_evaluation.ipynb`)
-Aggregate analysis across all schema variants. Produces rankings and identifies optimal schema for different use cases.
+- **Single-schema evaluation**: Detailed assessment across all 5 dimensions (structure detection, text quality, classification accuracy, metadata extraction, continuation tracking)
+- **Comparative evaluation**: Side-by-side comparison of different extraction systems (e.g., Mistral VLM vs BnF OCR baseline)
+- **Multi-schema evaluation**: Aggregate analysis across schema variants to identify optimal configurations for different use cases
+- **Word and character coverage**: Bag-of-words metrics with multiple normalization strategies
 
 ### Recommended first steps
 
-1. Open `01a_extraction.ipynb` and run it to extract a test PDF.
-2. Examine the generated JSON output in `data/predictions/`.
-3. Open `01c_extraction_evaluation.ipynb` to see evaluation metrics.
-4. Review `docs/ontology.md` to understand the data model.
+
+1. Review `docs/ontology.md` to understand the data model and schema structure.
+2. Open `01a_extraction.ipynb` and run it to extract a test PDF with your chosen schema variant.
+3. Examine the generated JSON output in `data/predictions/`.
+4. Open `01c_evaluation.ipynb` to see comprehensive evaluation metrics and comparative analysis.
 
 ## Data Model
 
